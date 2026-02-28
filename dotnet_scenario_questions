@@ -1,0 +1,276 @@
+Here's a comprehensive **.NET Learning Planner** — from **Basics to Advanced** — with **scenario-based questions only**, covering the full spectrum of .NET development as an 8-year full-stack developer transitioning toward mastery.
+
+---
+
+# 🗓️ .NET Full-Stack Developer — Learning Planner (2026)
+### Basics → Advanced | Scenario-Based Only
+
+---
+
+## 📦 MODULE 1: C# Language Fundamentals (Weeks 1–2)
+
+### 🟢 Basics
+
+| # | Scenario-Based Question |
+|---|------------------------|
+| 1 | You're reviewing a junior dev's code and notice they're using `ArrayList` instead of `List<T>`. How would you explain the difference and when might `ArrayList` still be acceptable? |
+| 2 | A method receives a `string` that could be `null`. How do you safely parse it into an `int`, and what modern C# features (nullable reference types) would you use to prevent this at compile time? |
+| 3 | You have a `Customer` class and a `VIPCustomer` class. How do you decide between inheritance vs. composition? Write a scenario where composition is the better choice. |
+| 4 | You need to store a collection of unique employee IDs that frequently need membership checks. Which collection type do you choose and why? |
+| 5 | A teammate uses `==` to compare two strings and gets unexpected results in production. What went wrong and how do you fix it? |
+
+### 🟡 Intermediate
+
+| # | Scenario-Based Question |
+|---|------------------------|
+| 6 | You're building a pricing engine where rules can change at runtime. How would you use delegates and `Func<T>` to make the pricing logic pluggable? |
+| 7 | You notice your LINQ queries are being executed multiple times due to deferred execution. Describe a real scenario where this causes a bug and how you fix it. |
+| 8 | Your team needs to process 10,000 records. How do you use `IEnumerable<T>` vs `IQueryable<T>` to ensure the filtering happens at the database level, not in memory? |
+| 9 | You need to implement a `retry` mechanism that wraps any method. How do you use generics and `Func<T>` to build a reusable retry utility? |
+| 10 | A `struct` is being used to represent a money value. A colleague modifies it inside a method but the change doesn't persist. Explain why and how `ref` parameters or making it a class would fix it. |
+
+### 🔴 Advanced
+
+| # | Scenario-Based Question |
+|---|------------------------|
+| 11 | You're dealing with a memory leak in a long-running service. How do you use `IDisposable`, `using` statements, and the finalizer pattern (`~Destructor`) correctly? |
+| 12 | Your team needs to write high-performance string processing code. How do you use `Span<T>`, `Memory<T>`, and `stackalloc` to avoid heap allocations? |
+| 13 | Explain a scenario where `record` types improved your domain model. How does `with` expressions help with immutability in a CQRS scenario? |
+| 14 | You need to implement a custom `IAsyncEnumerable<T>` to stream results from a large database query to an API consumer. How do you implement and consume it? |
+| 15 | A performance-critical path is bottlenecked by boxing/unboxing. How do you identify it using BenchmarkDotNet and refactor using `Generics` and `ValueTask`? |
+
+---
+
+## 📦 MODULE 2: ASP.NET Core Web API (Weeks 3–4)
+
+### 🟢 Basics
+
+| # | Scenario-Based Question |
+|---|------------------------|
+| 1 | You need to build a REST API for a product catalog. How do you structure your controllers, routes, and HTTP verbs following REST conventions? |
+| 2 | A client reports that your API returns `500` for invalid input. How do you implement model validation using `DataAnnotations` and return `400 Bad Request` with meaningful messages? |
+| 3 | You need to return different response formats (JSON/XML) from the same endpoint. How do you configure content negotiation in ASP.NET Core? |
+| 4 | A junior asks why the DI container throws an error when injecting `DbContext` into a singleton service. Explain lifetime mismatches and how to fix it. |
+| 5 | You need to read configuration values (connection strings, API keys) from `appsettings.json` in a type-safe way. How do you use the Options pattern? |
+
+### 🟡 Intermediate
+
+| # | Scenario-Based Question |
+|---|------------------------|
+| 6 | Your API must support versioning as the business evolves. How do you implement API versioning (URL/header/query string) without breaking existing clients? |
+| 7 | A security audit finds your API doesn't protect against mass assignment. How do you use DTOs and FluentValidation to prevent over-posting? |
+| 8 | You need to add cross-cutting concerns (logging, timing, error handling) without polluting each controller. How do you implement Action Filters and Middleware? |
+| 9 | Your API receives file uploads up to 100MB. How do you stream large file uploads to Azure Blob Storage without loading the entire file into memory? |
+| 10 | You need to implement rate limiting per user on your API. How do you use ASP.NET Core's built-in rate limiting middleware (introduced in .NET 7)? |
+
+### 🔴 Advanced
+
+| # | Scenario-Based Question |
+|---|------------------------|
+| 11 | Your API suffers from N+1 query problems when returning nested data. How do you detect it and resolve it using EF Core's `Include`, `Select` projections, or split queries? |
+| 12 | A high-traffic endpoint is overloading your database. How do you implement response caching, output caching, and distributed caching (Redis) at different layers? |
+| 13 | You need to implement a multi-tenant API where each tenant has its own database. How do you architect the tenant resolution, connection string switching, and EF Core DbContext per tenant? |
+| 14 | Your microservice API needs to expose a GraphQL endpoint alongside REST. How do you integrate Hot Chocolate or Strawberry Shake in .NET? |
+| 15 | You need to support real-time notifications in your API. How do you choose between SignalR, Server-Sent Events, and WebSockets for different use cases? |
+
+---
+
+## 📦 MODULE 3: Entity Framework Core & SQL Server (Weeks 5–6)
+
+### 🟢 Basics
+
+| # | Scenario-Based Question |
+|---|------------------------|
+| 1 | You're setting up EF Core for the first time. How do you configure `DbContext`, register it in DI, and run your first migration for a `Product` entity? |
+| 2 | A migration fails in production because a required column was added without a default value. How do you fix it and prevent it in future migrations? |
+| 3 | You need to seed the database with default roles. How do you implement `HasData()` seeding in EF Core migrations? |
+| 4 | A developer queries `db.Orders.ToList()` and then filters in memory. How do you explain the impact and correct it? |
+| 5 | You need to configure a one-to-many relationship between `Customer` and `Orders`. How do you do it using Fluent API vs Data Annotations? |
+
+### 🟡 Intermediate
+
+| # | Scenario-Based Question |
+|---|------------------------|
+| 6 | Two concurrent users update the same `Order` record. How do you implement Optimistic Concurrency using `[Timestamp]` or `RowVersion` in EF Core? |
+| 7 | You need to run a complex report involving multiple joins that EF Core generates poor SQL for. How do you use raw SQL, `FromSqlRaw`, or Dapper alongside EF Core? |
+| 8 | Your application has soft-delete requirements. How do you implement Global Query Filters in EF Core to automatically exclude deleted records? |
+| 9 | A production database has performance issues. How do you use EF Core logging, SQL Server Execution Plans, and indexes to diagnose and fix slow queries? |
+| 10 | You need to handle a distributed transaction across two tables atomically. How do you implement Unit of Work pattern with EF Core? |
+
+### 🔴 Advanced
+
+| # | Scenario-Based Question |
+|---|------------------------|
+| 11 | Your application needs to support both EF Core and Dapper for different scenarios. How do you abstract the data layer using the Repository pattern without leaking infrastructure concerns? |
+| 12 | You need to implement event sourcing with SQL Server as the event store. How do you design the schema and implement append-only writes with snapshots? |
+| 13 | A high-volume import process inserts 500K rows. How do you use `ExecuteBulkInsert`, `BulkExtensions`, or `SqlBulkCopy` to optimize performance? |
+| 14 | Your multi-tenant app requires row-level security at the database level. How do you configure SQL Server RLS and reflect it in EF Core? |
+| 15 | You need to implement a full-text search feature. How do you compare EF Core full-text search, SQL Server FTS, and integrating with Elasticsearch? |
+
+---
+
+## 📦 MODULE 4: Dependency Injection & Clean Architecture (Weeks 7–8)
+
+### 🟢 Basics
+
+| # | Scenario-Based Question |
+|---|------------------------|
+| 1 | You have a `EmailService` that is tightly coupled to your controller. How do you refactor it using Constructor Injection and register it with the DI container? |
+| 2 | A service registered as `Singleton` holds a reference to a `Scoped` service. What problem does this cause in production and how do you fix it? |
+| 3 | You need to swap the email provider (from SendGrid to SMTP) without changing business logic. How do you use interfaces and DI to achieve this? |
+| 4 | How do you organize a medium-sized .NET project into layers (API, Application, Domain, Infrastructure)? Walk through a real feature like "Place an Order." |
+| 5 | A colleague registers 20 services manually in `Program.cs`. How do you use assembly scanning (Scrutor) to auto-register them? |
+
+### 🟡 Intermediate
+
+| # | Scenario-Based Question |
+|---|------------------------|
+| 6 | You need multiple implementations of `INotificationService` (Email, SMS, Push). How do you register and resolve named or keyed services in .NET 8? |
+| 7 | How do you implement the **Mediator pattern** using MediatR for a `CreateOrderCommand`? Walk through the full request pipeline including validation and logging behaviors. |
+| 8 | You need to add cross-cutting concerns (validation, logging, caching) to every command handler without modifying each handler. How do you implement MediatR Pipeline Behaviors? |
+| 9 | Your domain raises events after an order is placed. How do you implement Domain Events using MediatR notifications? |
+| 10 | You need to implement CQRS where reads use a lightweight data model and writes use the domain model. How do you structure this in Clean Architecture? |
+
+### 🔴 Advanced
+
+| # | Scenario-Based Question |
+|---|------------------------|
+| 11 | You're implementing the **Outbox Pattern** to guarantee domain events are published even if the message broker is down. How do you implement it in .NET with EF Core? |
+| 12 | A feature requires a saga-like workflow (Order → Payment → Shipment). How do you implement a Process Manager using MediatR or a state machine (Stateless library)? |
+| 13 | Your DI container has circular dependencies causing startup failures. How do you diagnose and restructure the dependency graph? |
+| 14 | You need to implement **Vertical Slice Architecture** instead of layered architecture for a new feature. How does it differ from Clean Architecture in practice? |
+| 15 | How do you implement a modular monolith in .NET where each module is independently deployable but runs in the same process? |
+
+---
+
+## 📦 MODULE 5: Authentication, Authorization & Security (Weeks 9–10)
+
+### 🟢 Basics
+
+| # | Scenario-Based Question |
+|---|------------------------|
+| 1 | You need to secure your API so only authenticated users can access it. How do you implement JWT Bearer authentication in ASP.NET Core? |
+| 2 | A user changes their role but the old JWT still grants them admin access. How does JWT expiry and token revocation work, and how do you solve this? |
+| 3 | You need to protect certain endpoints so only users with `Admin` role can call them. How do you use `[Authorize(Roles = "Admin")]` and policy-based authorization? |
+| 4 | Your app stores passwords. How do you use `ASP.NET Core Identity`'s `PasswordHasher` correctly and why should you never store plain text? |
+| 5 | A penetration tester finds that your API is vulnerable to SQL injection via a search parameter. How do you fix it using parameterized queries or EF Core? |
+
+### 🟡 Intermediate
+
+| # | Scenario-Based Question |
+|---|------------------------|
+| 6 | You need to implement OAuth2 + OpenID Connect with Azure AD as the identity provider. How do you configure it in ASP.NET Core and validate tokens? |
+| 7 | Your API needs to support both Cookie auth (for MVC) and JWT auth (for mobile clients). How do you configure multiple authentication schemes? |
+| 8 | A feature requires fine-grained permission checks (e.g., "can edit only their own orders"). How do you implement Resource-based Authorization using `IAuthorizationHandler`? |
+| 9 | You need to implement Refresh Tokens securely. How do you store, rotate, and invalidate them to prevent token theft? |
+| 10 | Your API is being hammered by a brute-force login attack. How do you implement account lockout, CAPTCHA, and IP rate limiting? |
+
+### 🔴 Advanced
+
+| # | Scenario-Based Question |
+|---|------------------------|
+| 11 | You're building a multi-tenant SaaS. How do you implement tenant-based claims, isolate data per tenant, and prevent cross-tenant data leakage? |
+| 12 | You need to implement a custom `IAuthorizationPolicyProvider` that loads policies dynamically from a database. Walk through the implementation. |
+| 13 | Your security team requires all sensitive data (PII) to be encrypted at rest in SQL Server and in transit. How do you implement field-level encryption in EF Core? |
+| 14 | How do you implement **Zero Trust** principles in your .NET microservices? (mTLS, service-to-service auth with Azure Managed Identity) |
+| 15 | A GDPR audit requires you to implement the right to erasure. How do you design your .NET system to handle data deletion across multiple services and databases? |
+
+---
+
+## 📦 MODULE 6: Performance, Async & Concurrency (Weeks 11–12)
+
+### 🟢 Basics
+
+| # | Scenario-Based Question |
+|---|------------------------|
+| 1 | Your API endpoint calls an external REST API synchronously, causing thread starvation. How do you convert it to `async/await` correctly? |
+| 2 | A developer uses `.Result` on a `Task` inside an ASP.NET Core controller and the app deadlocks. Explain why and how to fix it. |
+| 3 | You need to run 3 independent API calls in parallel and combine results. How do you use `Task.WhenAll()` correctly? |
+| 4 | A background process needs to run every 5 minutes. How do you implement a `BackgroundService` or `IHostedService` in .NET? |
+| 5 | Your endpoint is slow because it runs 5 sequential database queries. How do you identify which ones can run in parallel? |
+
+### 🟡 Intermediate
+
+| # | Scenario-Based Question |
+|---|------------------------|
+| 6 | You need to process 10,000 records concurrently but limit to 10 at a time to avoid overloading downstream services. How do you use `SemaphoreSlim` or `Parallel.ForEachAsync`? |
+| 7 | A memory profiler shows your app allocates excessive `Task` objects. How do you use `ValueTask` to reduce allocations in hot paths? |
+| 8 | Multiple threads update a shared counter in a service. How do you choose between `lock`, `Interlocked`, and `ConcurrentDictionary`? |
+| 9 | You need to implement a producer-consumer pipeline where producers publish messages faster than consumers process. How do you use `Channel<T>`? |
+| 10 | Your app needs to cancel long-running operations (DB queries, HTTP calls) when a user disconnects. How do you propagate `CancellationToken` from the HTTP request through the call chain? |
+
+### 🔴 Advanced
+
+| # | Scenario-Based Question |
+|---|------------------------|
+| 11 | A high-throughput API processes 50K requests/second. How do you use memory pooling (`ArrayPool<T>`, `MemoryPool<T>`) and `ObjectPool<T>` to reduce GC pressure? |
+| 12 | You need to implement a lock-free queue for a real-time order matching engine. How do you use `ConcurrentQueue<T>` and compare it with `Channel<T>`? |
+| 13 | Your .NET app has unpredictable GC pauses. How do you use `GC.TryStartNoGCRegion`, reduce LOH allocations, and tune GC settings in `runtimeconfig.json`? |
+| 14 | You need to maximize CPU throughput for a CPU-bound computation. How do you use `Parallel.For`, `PLINQ`, and compare with `Task.Run` on a thread pool? |
+| 15 | A real-time trading app needs sub-millisecond response times. How do you use `System.IO.Pipelines` to build a zero-copy network protocol parser? |
+
+---
+
+## 📦 MODULE 7: Testing in .NET (Weeks 13–14)
+
+### 🟢 Basics
+
+| # | Scenario-Based Question |
+|---|------------------------|
+| 1 | You need to write a unit test for an order calculation method. How do you set up an xUnit test project and write your first `[Fact]` and `[Theory]`? |
+| 2 | Your service depends on `IEmailService`. How do you mock it using Moq and verify it was called with the correct parameters? |
+| 3 | A bug was found where a discount is applied to zero-price items. How do you write a regression test to prevent this from happening again? |
+| 4 | You need to test a method that throws an exception for invalid input. How do you assert exceptions in xUnit and FluentAssertions? |
+| 5 | How do you test a controller action that returns `IActionResult`? What should you test vs. what should be in integration tests? |
+
+### 🟡 Intermediate
+
+| # | Scenario-Based Question |
+|---|------------------------|
+| 6 | You need to integration test your API with a real database. How do you use `WebApplicationFactory<T>` and `TestContainers` for SQL Server? |
+| 7 | A flaky test fails intermittently because it relies on `DateTime.Now`. How do you refactor using `IClock` abstraction and mock time in tests? |
+| 8 | You need to test a MediatR handler chain including pipeline behaviors. How do you set up an in-memory MediatR test without mocking every piece? |
+| 9 | Your team wants to enforce code coverage thresholds in CI. How do you configure Coverlet and report coverage in GitHub Actions? |
+| 10 | How do you implement consumer-driven contract testing between your .NET API and a React frontend using Pact? |
+
+### 🔴 Advanced
+
+| # | Scenario-Based Question |
+|---|------------------------|
+| 11 | You need to test a RabbitMQ consumer. How do you use TestContainers with RabbitMQ and verify message processing end-to-end? |
+| 12 | A chaos engineering requirement asks you to test how your service behaves when the database goes down mid-request. How do you simulate this with Polly and integration tests? |
+| 13 | Your performance tests show p99 latency degraded after a recent deployment. How do you write benchmark tests using BenchmarkDotNet and integrate them into your CI pipeline? |
+| 14 | You need to implement mutation testing to measure the quality of your test suite. How do you use Stryker.NET and interpret its results? |
+| 15 | How do you implement Architecture Tests using NetArchTest or ArchUnitNET to enforce Clean Architecture rules (e.g., Domain layer must not depend on Infrastructure)? |
+
+---
+
+## 🗺️ Summary Planner Overview
+
+| Week | Module | Focus |
+|------|--------|-------|
+| 1–2 | C# Language Fundamentals | Value types, generics, async, Span, records |
+| 3–4 | ASP.NET Core Web API | REST, middleware, caching, versioning |
+| 5–6 | EF Core & SQL Server | Migrations, performance, concurrency |
+| 7–8 | DI & Clean Architecture | MediatR, CQRS, Outbox, Vertical Slice |
+| 9–10 | Security & Auth | JWT, OAuth2, RBAC, Zero Trust |
+| 11–12 | Performance & Async | Channels, pooling, GC tuning, Pipelines |
+| 13–14 | Testing | Unit, Integration, Contract, Mutation |
+
+---
+
+## 🏆 Pro Tips for Your Learning Path
+
+> **As an 8-year veteran**, focus heavily on **Modules 4–7** (Architecture, Security, Performance, Testing) — these will separate you from the crowd.
+
+- 📌 **Pair each scenario** with a real GitHub repo implementation
+- 📌 **Build a capstone project** — an Order Management System using all modules
+- 📌 **Benchmark everything** — use BenchmarkDotNet + dotnet-trace for profiling
+- 📌 **Write Architecture Decision Records (ADRs)** as you learn each pattern
+
+---
+
+Would you like me to:
+1. 🔁 **Create similar planners for Angular, RabbitMQ/MassTransit, Kubernetes, Azure, or Microservices?**
+2. 📝 **Create a GitHub Issue** to track this learning plan in your repository?
+3. 🧩 **Deep dive into any specific module** with code examples and references?
