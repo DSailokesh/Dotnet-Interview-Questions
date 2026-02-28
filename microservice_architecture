@@ -1,0 +1,301 @@
+This is a great request! Since this is about creating a learning planner (not a code search task), I don't need to search any repository. Let me create a comprehensive, structured **Microservices Learning Planner** — from basics to advanced — with scenario-based and concept-based questions, tailored for your 8 years of full-stack experience.
+
+---
+
+# 🗺️ Microservices Mastery Planner
+### From Basics → Advanced | Concept + Scenario-Based Questions
+> Tailored for a Full Stack Developer with 8 YOE | Target Duration: **12 Weeks**
+
+---
+
+## 📅 PHASE 1 — Foundations (Week 1–2)
+
+### 🧠 Core Concepts
+
+| # | Topic | Depth |
+|---|-------|-------|
+| 1 | What are Microservices? Monolith vs SOA vs Microservices | Basics |
+| 2 | Principles: Single Responsibility, Loose Coupling, High Cohesion | Basics |
+| 3 | Service boundaries & Domain-Driven Design (DDD) basics | Basics |
+| 4 | Communication styles: Sync vs Async | Basics |
+| 5 | REST API design for microservices | Basics |
+
+### ❓ Concept-Based Questions
+
+1. What is the **Single Responsibility Principle** in the context of microservices? How does it differ from OOP's SRP?
+2. What are the **key differences** between Microservices, SOA, and Monolithic architecture?
+3. What is **Loose Coupling** and **High Cohesion** in microservices design?
+4. How do you decide **service boundaries** when decomposing a monolith?
+5. What is **Domain-Driven Design (DDD)** and how does it help define microservice boundaries?
+6. What is **Bounded Context** in DDD?
+7. What is the difference between **synchronous** and **asynchronous** communication?
+
+### 🔥 Scenario-Based Questions
+
+1. **Scenario:** You are working on an e-commerce monolith with modules for Orders, Inventory, Users, and Payments. How would you decompose it into microservices? What would be your first step?
+2. **Scenario:** Two teams want to own the concept of "Customer" differently — one for billing, one for shipping. How do you handle this in DDD?
+3. **Scenario:** A junior developer says "Let's create one microservice per database table." What are the problems with this approach?
+4. **Scenario:** Your service boundaries are unclear and two services are tightly coupled, sharing the same database. How do you fix this?
+
+---
+
+## 📅 PHASE 2 — Service Communication (Week 3–4)
+
+### 🧠 Core Concepts
+
+| # | Topic | Depth |
+|---|-------|-------|
+| 1 | REST vs gRPC vs GraphQL in microservices | Intermediate |
+| 2 | Synchronous communication: REST, gRPC | Intermediate |
+| 3 | Asynchronous communication: Message Queues, Event Bus | Intermediate |
+| 4 | API Gateway pattern | Intermediate |
+| 5 | Service Discovery (Client-side vs Server-side) | Intermediate |
+| 6 | Load Balancing | Intermediate |
+
+### ❓ Concept-Based Questions
+
+1. When would you choose **gRPC** over REST in microservices communication?
+2. What is an **API Gateway**? What responsibilities should it have vs NOT have?
+3. What is **Service Discovery**? Explain Client-side vs Server-side discovery with examples.
+4. What is the **Backend for Frontend (BFF)** pattern?
+5. What is **Circuit Breaker** pattern and why is it critical in sync communication?
+6. What is **bulkhead pattern** and how does it prevent cascading failures?
+7. What is **retry with exponential backoff** and when should you use it?
+8. What is the difference between **orchestration** and **choreography** in microservices?
+
+### 🔥 Scenario-Based Questions
+
+1. **Scenario:** Service A calls Service B synchronously. Service B is slow and causing Service A to time out, which then causes Service C (calling Service A) to fail. How do you fix this cascade?
+2. **Scenario:** You need real-time communication between services for a financial transaction. Would you use REST, gRPC, or a message queue? Justify.
+3. **Scenario:** Your API Gateway is becoming a bottleneck — every request, even between internal services, passes through it. How would you redesign this?
+4. **Scenario:** You need to expose different data shapes for a mobile app and a web app from the same microservices. What pattern do you apply?
+5. **Scenario:** Service discovery is failing intermittently. Instances are healthy but not being found. What could cause this and how do you debug it?
+
+---
+
+## 📅 PHASE 3 — Data Management (Week 5–6)
+
+### 🧠 Core Concepts
+
+| # | Topic | Depth |
+|---|-------|-------|
+| 1 | Database per Service pattern | Intermediate |
+| 2 | Shared Database anti-pattern | Intermediate |
+| 3 | CQRS (Command Query Responsibility Segregation) | Advanced |
+| 4 | Event Sourcing | Advanced |
+| 5 | Saga Pattern (Choreography & Orchestration) | Advanced |
+| 6 | Eventual Consistency | Intermediate |
+| 7 | Distributed Transactions | Advanced |
+
+### ❓ Concept-Based Questions
+
+1. Why is **Database per Service** a core principle in microservices? What problems does it solve?
+2. What is **CQRS**? Why would you separate read and write models?
+3. What is **Event Sourcing**? How does it differ from traditional CRUD?
+4. What is the **Saga Pattern**? Compare choreography-based saga vs orchestration-based saga.
+5. What is **Eventual Consistency**? How is it different from strong consistency?
+6. What is a **Two-Phase Commit (2PC)** and why is it avoided in microservices?
+7. What is a **compensating transaction** in a Saga?
+8. When would you use **CQRS + Event Sourcing** together?
+
+### 🔥 Scenario-Based Questions
+
+1. **Scenario:** You have an Order service and an Inventory service. When an order is placed, inventory must be reserved. If inventory reservation fails, the order must be cancelled. How do you implement this without distributed transactions?
+2. **Scenario:** A customer complains that their profile update is visible in the mobile app but not on the website. What is likely happening and what is the expected behavior in an eventually consistent system?
+3. **Scenario:** Your read queries on the Order service are slow because you have millions of orders. How would you use CQRS to fix this?
+4. **Scenario:** You need to reconstruct the full history of state changes for an account. Would you use Event Sourcing? What are the trade-offs?
+5. **Scenario:** A saga fails midway through a 5-step process. How do you ensure data consistency across 3 services that already completed their steps?
+
+---
+
+## 📅 PHASE 4 — Resilience & Fault Tolerance (Week 7)
+
+### 🧠 Core Concepts
+
+| # | Topic | Depth |
+|---|-------|-------|
+| 1 | Circuit Breaker Pattern | Intermediate |
+| 2 | Retry Pattern with Exponential Backoff & Jitter | Intermediate |
+| 3 | Timeout Pattern | Basics |
+| 4 | Bulkhead Pattern | Intermediate |
+| 5 | Fallback Pattern | Intermediate |
+| 6 | Health Checks (Liveness vs Readiness) | Intermediate |
+| 7 | Chaos Engineering basics | Advanced |
+
+### ❓ Concept-Based Questions
+
+1. Explain the **three states** of a Circuit Breaker: Closed, Open, Half-Open.
+2. What is the difference between **liveness probe** and **readiness probe** in Kubernetes?
+3. What is **Chaos Engineering** and what tools support it?
+4. How does the **bulkhead pattern** isolate failures?
+5. What is **fail-fast** principle in microservices?
+6. When should you **NOT retry** a failed request?
+
+### 🔥 Scenario-Based Questions
+
+1. **Scenario:** Your Payment service keeps calling a downstream fraud detection service that is down. Each call waits 30 seconds before timing out, causing the payment service threads to exhaust. How do you resolve this?
+2. **Scenario:** You added retry logic, but now a downstream service is getting 3x more traffic than expected during an outage. What went wrong and how do you fix it?
+3. **Scenario:** A Kubernetes pod is alive but cannot connect to the database. The liveness probe passes but the service is not functional. What should you configure instead?
+4. **Scenario:** You want to test how your system behaves when the Order service goes down unexpectedly. What approach do you take and what do you measure?
+
+---
+
+## 📅 PHASE 5 — Security in Microservices (Week 8)
+
+### 🧠 Core Concepts
+
+| # | Topic | Depth |
+|---|-------|-------|
+| 1 | OAuth2 / OpenID Connect in microservices | Intermediate |
+| 2 | JWT token propagation between services | Intermediate |
+| 3 | mTLS (Mutual TLS) for service-to-service auth | Advanced |
+| 4 | Zero Trust Security Model | Advanced |
+| 5 | Secrets Management (Azure Key Vault, etc.) | Intermediate |
+| 6 | Rate Limiting & Throttling at Gateway | Intermediate |
+
+### ❓ Concept-Based Questions
+
+1. How does **JWT token propagation** work across microservices? What are the risks?
+2. What is **mTLS** and how does it differ from regular TLS?
+3. What is the **Zero Trust** model and how does it apply to microservices?
+4. How do you **manage secrets** (DB passwords, API keys) across many microservices in production?
+5. What is the difference between **Authentication** and **Authorization** in the context of a microservices API Gateway?
+6. What is **token introspection** vs **local JWT validation**? Trade-offs?
+
+### 🔥 Scenario-Based Questions
+
+1. **Scenario:** Service A receives a JWT from the API Gateway and needs to call Service B. Should Service A pass the original JWT, create a new one, or use mTLS? Justify.
+2. **Scenario:** A developer hard-coded a database connection string in the Docker image. How do you remediate this in production and prevent it going forward?
+3. **Scenario:** Your API is being flooded with requests from a single IP during a sale event. The API Gateway is not blocking it. What do you configure?
+4. **Scenario:** You need Service A (running in Kubernetes) to securely access Azure SQL without storing credentials. What is your approach?
+
+---
+
+## 📅 PHASE 6 — Observability & Monitoring (Week 9)
+
+### 🧠 Core Concepts
+
+| # | Topic | Depth |
+|---|-------|-------|
+| 1 | The Three Pillars: Logs, Metrics, Traces | Intermediate |
+| 2 | Distributed Tracing (OpenTelemetry, Jaeger) | Advanced |
+| 3 | Centralized Logging (ELK Stack / Azure Monitor) | Intermediate |
+| 4 | Health Dashboards & Alerting | Intermediate |
+| 5 | Correlation IDs | Intermediate |
+| 6 | SLI, SLO, SLA in microservices | Advanced |
+
+### ❓ Concept-Based Questions
+
+1. What are the **Three Pillars of Observability**? How do they differ from each other?
+2. What is **Distributed Tracing** and why is it hard in microservices without tooling?
+3. What is a **Correlation ID** and how do you propagate it across services?
+4. What is **OpenTelemetry** and why is it becoming the standard?
+5. What are **SLI, SLO, and SLA**? Give examples for a payment microservice.
+6. What is the difference between **monitoring** (reactive) and **observability** (proactive)?
+
+### 🔥 Scenario-Based Questions
+
+1. **Scenario:** A user reports that their checkout failed, but you have 12 microservices involved in checkout. How do you trace the root cause without a correlation ID?
+2. **Scenario:** CPU spikes on your Order service every night at 2 AM. No errors in logs. How do you investigate?
+3. **Scenario:** You need to ensure your payment service has 99.9% uptime SLO. How do you set up alerting and what metrics do you track?
+4. **Scenario:** Logs from three different services look fine individually, but a business transaction is failing. How does distributed tracing help here that logs alone cannot?
+
+---
+
+## 📅 PHASE 7 — Deployment & Orchestration (Week 10)
+
+### 🧠 Core Concepts
+
+| # | Topic | Depth |
+|---|-------|-------|
+| 1 | Containerization (Docker) best practices for microservices | Intermediate |
+| 2 | Kubernetes: Deployments, Services, ConfigMaps, Secrets | Intermediate |
+| 3 | Helm Charts for microservices | Advanced |
+| 4 | Blue-Green & Canary Deployments | Advanced |
+| 5 | Service Mesh (Istio / Linkerd) | Advanced |
+| 6 | GitOps with ArgoCD / Flux | Advanced |
+
+### ❓ Concept-Based Questions
+
+1. What is a **Service Mesh** and what problems does it solve that Kubernetes alone doesn't?
+2. What is the difference between **Blue-Green** and **Canary** deployment?
+3. What is **GitOps**? How does it differ from traditional CI/CD?
+4. What is a **Helm Chart** and why is it useful for microservices?
+5. What is the **Sidecar pattern** and how is it used by Service Meshes?
+
+### 🔥 Scenario-Based Questions
+
+1. **Scenario:** You need to roll out a new version of the Checkout service to 10% of users first. Which deployment strategy do you use and how do you configure it in Kubernetes?
+2. **Scenario:** You need to enforce mTLS between all services in your cluster without modifying application code. What do you use?
+3. **Scenario:** A deployment went wrong and the new version of the API is crashing. Kubernetes isn't rolling back automatically. What should you have configured to prevent this?
+4. **Scenario:** You have 15 microservices, each with their own `kubectl apply` scripts. Deployments are inconsistent across environments. How do you standardize this?
+
+---
+
+## 📅 PHASE 8 — Advanced Patterns & Design (Week 11–12)
+
+### 🧠 Core Concepts
+
+| # | Topic | Depth |
+|---|-------|-------|
+| 1 | Strangler Fig Pattern (Monolith Migration) | Advanced |
+| 2 | Anti-Corruption Layer (ACL) | Advanced |
+| 3 | Outbox Pattern | Advanced |
+| 4 | Idempotency in microservices | Advanced |
+| 5 | Rate Limiting, Throttling, Backpressure | Advanced |
+| 6 | Versioning strategies for microservices APIs | Advanced |
+| 7 | Distributed Caching | Advanced |
+
+### ❓ Concept-Based Questions
+
+1. What is the **Strangler Fig Pattern**? When and how do you use it?
+2. What is the **Outbox Pattern** and how does it solve the dual-write problem?
+3. What is **idempotency** in microservices? How do you implement an idempotent API?
+4. What is an **Anti-Corruption Layer** and when should you use it?
+5. How do you version a microservice API without breaking consumers?
+6. What is **backpressure** and how do message queues help manage it?
+7. What is a **Distributed Cache** (Redis, etc.) and what are its consistency trade-offs in microservices?
+
+### 🔥 Scenario-Based Questions
+
+1. **Scenario:** Your Order service publishes an event to RabbitMQ and saves to DB in the same operation. Sometimes the DB succeeds but the event is never published (or vice versa). How do you fix this reliably?
+2. **Scenario:** A payment API is being called twice for the same transaction due to a network retry. How do you prevent double charging the customer?
+3. **Scenario:** You are migrating a legacy monolith to microservices. You can't rewrite everything at once. What pattern do you apply and what are the steps?
+4. **Scenario:** A third-party shipping API uses completely different terminology and models than your domain. How do you integrate it without polluting your domain model?
+5. **Scenario:** Your Notification service is getting overwhelmed with 50,000 messages per second during a flash sale. How do you handle backpressure?
+6. **Scenario:** You need to change the structure of your `/orders` API response without breaking 3 existing consumers. What versioning strategy do you adopt?
+
+---
+
+## 📊 Progress Tracker
+
+| Phase | Topic | Duration | Status |
+|-------|-------|----------|--------|
+| 1 | Foundations | Week 1–2 | ⬜ Not Started |
+| 2 | Service Communication | Week 3–4 | ⬜ Not Started |
+| 3 | Data Management | Week 5–6 | ⬜ Not Started |
+| 4 | Resilience & Fault Tolerance | Week 7 | ⬜ Not Started |
+| 5 | Security | Week 8 | ⬜ Not Started |
+| 6 | Observability & Monitoring | Week 9 | ⬜ Not Started |
+| 7 | Deployment & Orchestration | Week 10 | ⬜ Not Started |
+| 8 | Advanced Patterns | Week 11–12 | ⬜ Not Started |
+
+---
+
+## 💡 Tips for Your Study Approach
+
+Given your **8 years of experience**, I recommend:
+
+- ⚡ **Skip Phase 1 basics** if you already know them — do a self-test with the scenario questions first
+- 🔁 **Phases 3 & 4** are most important for senior-level interviews and production systems
+- 🧪 **Build a mini project** — an e-commerce system with Order, Inventory, Payment, and Notification services — to apply every concept hands-on
+- 📌 **Phases 5 & 6** are often underestimated — security and observability questions are very common in system design rounds
+- 🏗️ Since you use **RabbitMQ + MassTransit**, Phase 3's Saga + Outbox pattern will feel very natural for you
+
+---
+
+Would you like me to:
+1. 📝 **Create a GitHub Issue** for this planner in your repository?
+2. 📄 **Create a Markdown file** with this planner and push it to a repo?
+3. 🎯 **Deep dive** into any specific phase (e.g., full interview Q&A for Saga Pattern or CQRS)?
+4. 🔗 **Link this to RabbitMQ + MassTransit specific patterns** (since you use those)?
