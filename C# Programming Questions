@@ -1,0 +1,127 @@
+Here are the **Top 50 Problem Solving & Algorithm Questions in C#** — no answers, just questions! 🎯
+
+---
+
+## 🔹 Section 1 — String Manipulation (Q1–Q10)
+
+1. Reverse a string without using built-in `Reverse()` or `Array.Reverse()`.
+2. Check if a given string is a palindrome (ignore spaces and casing).
+3. Find the first non-repeating character in a string.
+4. Count the occurrences of each character in a string without using LINQ.
+5. Check if two strings are anagrams of each other.
+6. Write a method to compress a string — e.g., `"aaabbbcc"` → `"a3b3c2"`.
+7. Find the longest palindromic substring in a given string.
+8. Given a sentence, reverse only the words — e.g., `"Hello World"` → `"World Hello"`.
+9. Remove all duplicate characters from a string while maintaining order.
+10. Find all permutations of a given string.
+
+---
+
+## 🔹 Section 2 — Arrays & Collections (Q11–Q20)
+
+11. Find the second largest element in an array without sorting.
+12. Move all zeros in an array to the end while maintaining the order of non-zero elements.
+13. Find all pairs in an array whose sum equals a given target value.
+14. Rotate an array to the right by `k` steps in-place.
+15. Find the maximum subarray sum (Kadane's Algorithm).
+16. Given an array of integers, find the longest consecutive sequence.
+17. Find the intersection and union of two unsorted arrays.
+18. Given a sorted array, remove duplicates in-place and return the new length.
+19. Find the missing number in an array containing `1` to `n`.
+20. Given an integer array, return all triplets that sum to zero (3Sum problem).
+
+---
+
+## 🔹 Section 3 — Linked Lists (Q21–Q25)
+
+21. Reverse a singly linked list iteratively and recursively.
+22. Detect if a linked list has a cycle (Floyd's Cycle Detection Algorithm).
+23. Find the middle node of a linked list in a single pass.
+24. Merge two sorted linked lists into one sorted linked list.
+25. Remove the nth node from the end of a linked list in one pass.
+
+---
+
+## 🔹 Section 4 — Stack & Queue (Q26–Q30)
+
+26. Implement a stack using two queues.
+27. Implement a queue using two stacks.
+28. Check if a given string of brackets `({[]})` is balanced using a stack.
+29. Design a stack that supports `Push`, `Pop`, and `GetMin` in O(1) time.
+30. Evaluate a postfix expression (e.g., `"5 3 + 2 *"` → `16`) using a stack.
+
+---
+
+## 🔹 Section 5 — Recursion & Dynamic Programming (Q31–Q38)
+
+31. Compute the nth Fibonacci number using recursion, then optimize it with memoization.
+32. Implement the Tower of Hanoi for `n` disks.
+33. Given a staircase with `n` steps where you can climb 1 or 2 steps at a time, count the number of distinct ways to reach the top.
+34. Solve the 0/1 Knapsack problem using dynamic programming.
+35. Find the length of the Longest Common Subsequence (LCS) of two strings.
+36. Given a grid of `m x n`, find the number of unique paths from top-left to bottom-right.
+37. Solve the Coin Change problem — given coin denominations and an amount, find the minimum number of coins needed.
+38. Find the longest increasing subsequence in an array.
+
+---
+
+## 🔹 Section 6 — Trees & Graphs (Q39–Q44)
+
+39. Implement Binary Search Tree (BST) with `Insert`, `Search`, and `Delete` operations.
+40. Perform In-order, Pre-order, and Post-order traversal of a Binary Tree iteratively.
+41. Find the height (maximum depth) of a binary tree.
+42. Check if a binary tree is a valid BST.
+43. Given a graph represented as an adjacency list, implement BFS and DFS traversal.
+44. Detect a cycle in a directed graph using DFS.
+
+---
+
+## 🔹 Section 7 — Sorting & Searching (Q45–Q48)
+
+45. Implement QuickSort and explain its best, average, and worst-case time complexity.
+46. Implement MergeSort and explain how it differs from QuickSort.
+47. Implement Binary Search iteratively and recursively on a sorted array.
+48. Given a sorted rotated array (e.g., `[4,5,6,1,2,3]`), find a target element using binary search.
+
+---
+
+## 🔹 Section 8 — Real-World Coding Scenarios (Q49–Q50)
+
+49. Given a list of customer transactions, identify customers who have made more than 3 transactions exceeding ₹10,000 in a single day — return their IDs sorted in ascending order.
+50. Design and implement an **LRU (Least Recently Used) Cache** in C# with `Get(key)` and `Put(key, value)` operations, both in **O(1)** time complexity.
+
+---
+
+## 📊 Section Summary
+
+| Section | Topic | Questions |
+|---|---|---|
+| 1 | String Manipulation | Q1 – Q10 |
+| 2 | Arrays & Collections | Q11 – Q20 |
+| 3 | Linked Lists | Q21 – Q25 |
+| 4 | Stack & Queue | Q26 – Q30 |
+| 5 | Recursion & Dynamic Programming | Q31 – Q38 |
+| 6 | Trees & Graphs | Q39 – Q44 |
+| 7 | Sorting & Searching | Q45 – Q48 |
+| 8 | Real-World Coding Scenarios | Q49 – Q50 |
+| **Total** | | **50** |
+
+---
+
+## ⏱️ Suggested Practice Plan
+
+| Week | Focus | Questions |
+|---|---|---|
+| Week 1 | Strings + Arrays | Q1 – Q20 |
+| Week 2 | LinkedList + Stack + Queue | Q21 – Q30 |
+| Week 3 | Recursion + DP | Q31 – Q38 |
+| Week 4 | Trees + Graphs + Sorting | Q39 – Q48 |
+| Week 5 | Real-World Scenarios + Revision | Q49 – Q50 + Revisit |
+
+---
+
+Would you like me to:
+- ✅ Provide **answers with code** for any specific question?
+- 🎯 Generate a **mock interview set** of 10 random questions with a timer?
+- 📝 Add **Azure, SQL, or Kubernetes** specific algorithm questions?
+- 🔥 Generate **hard-level only** questions for senior developer rounds?
