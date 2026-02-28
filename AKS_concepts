@@ -1,0 +1,321 @@
+# 🚀 AKS (Azure Kubernetes Service) — Full Learning Planner
+
+> **Target Profile:** Full Stack Developer | Angular · .NET · Microservices · RabbitMQ/MassTransit · Kubernetes · Azure · SQL Server
+> **Goal:** Master AKS from fundamentals to production-grade expertise
+> **Duration Estimate:** 10–12 Weeks
+> **Last Updated:** 2026-02-28
+
+---
+
+## 📌 PHASE 1 — Foundations & Core Concepts (Week 1–2)
+
+### 🧱 Module 1.1 — Containers & Docker Recap
+
+| # | Type | Question |
+|---|------|----------|
+| 1 | Concept | What is the difference between a container and a virtual machine, and why does Kubernetes prefer containers for microservice orchestration? |
+| 2 | Concept | How does a Docker image layer work, and why does layer caching matter in a CI/CD pipeline for a .NET microservice? |
+| 3 | Scenario | Your .NET API Docker image is 2GB. Your team complains it takes too long to deploy. How would you reduce the image size using multi-stage builds? |
+| 4 | Concept | What is the difference between `CMD` and `ENTRYPOINT` in a Dockerfile, and when would you use each for a .NET 8 Web API? |
+| 5 | Scenario | You need to containerize an Angular SPA + .NET API together. Would you use a single container or separate containers? Justify your design choice. |
+
+---
+
+### 🧱 Module 1.2 — Kubernetes Core Concepts
+
+| # | Type | Question |
+|---|------|----------|
+| 1 | Concept | Explain the Kubernetes control plane components (API Server, etcd, Scheduler, Controller Manager) and their roles. |
+| 2 | Concept | What is the difference between a Pod, ReplicaSet, and Deployment? When would you use each in a microservices architecture? |
+| 3 | Scenario | A Pod running your .NET microservice keeps restarting. How do you diagnose whether it is a liveness probe failure, OOM kill, or application crash? |
+| 4 | Concept | What is the role of `kubelet` on a worker node, and what happens if kubelet becomes unresponsive? |
+| 5 | Scenario | You deployed 3 replicas of your .NET service but traffic is not being distributed evenly. What Kubernetes and networking concepts would you investigate? |
+| 6 | Concept | What is the difference between a `ClusterIP`, `NodePort`, and `LoadBalancer` service type? When would you use each? |
+
+---
+
+### 🧱 Module 1.3 — AKS Architecture Overview
+
+| # | Type | Question |
+|---|------|----------|
+| 1 | Concept | What is AKS and how does it differ from self-managed Kubernetes? What does Azure manage vs. what you manage? |
+| 2 | Concept | Explain the AKS node pool concept. What is the difference between a system node pool and a user node pool? |
+| 3 | Scenario | You need to run GPU-intensive workloads alongside general .NET microservices in the same AKS cluster. How do you architect node pools to handle this? |
+| 4 | Concept | What is the AKS managed identity, and why is it preferred over service principals for accessing Azure resources? |
+| 5 | Concept | What is the role of Azure CNI vs. Kubenet in AKS networking? Which would you choose for a large enterprise microservice platform and why? |
+
+---
+
+## 📌 PHASE 2 — Workload Management (Week 3–4)
+
+### 🔧 Module 2.1 — Deployments, StatefulSets & DaemonSets
+
+| # | Type | Question |
+|---|------|----------|
+| 1 | Concept | What is the difference between a `Deployment` and a `StatefulSet`? When would you use a StatefulSet for a service in your microservices stack? |
+| 2 | Scenario | You need to deploy RabbitMQ on AKS. Would you use a Deployment or StatefulSet? Explain the implications for persistent storage and identity. |
+| 3 | Concept | What is a DaemonSet? Describe a real use case in an AKS cluster where you would deploy a DaemonSet. |
+| 4 | Scenario | You are performing a rolling update of your .NET microservice but you want to ensure zero downtime. What Deployment strategy and configuration would you use? |
+| 5 | Concept | What is `maxSurge` and `maxUnavailable` in a RollingUpdate strategy? How do you tune these for a high-availability microservice? |
+| 6 | Scenario | A canary release of your Angular-backed API causes 5% error rate in production. How does Kubernetes Deployment strategy help you roll back quickly and safely? |
+
+---
+
+### 🔧 Module 2.2 — ConfigMaps, Secrets & Environment Management
+
+| # | Type | Question |
+|---|------|----------|
+| 1 | Concept | What is the difference between a `ConfigMap` and a `Secret` in Kubernetes? What are the security limitations of Kubernetes Secrets? |
+| 2 | Scenario | Your .NET microservice needs a SQL Server connection string and a RabbitMQ password. How do you securely inject these into your AKS pod without hardcoding? |
+| 3 | Concept | What is Azure Key Vault integration with AKS using the Secrets Store CSI Driver? How does it improve upon native Kubernetes Secrets? |
+| 4 | Scenario | You have 10 microservices that all share a common configuration (e.g., feature flags, environment URLs). How do you manage this centrally in AKS? |
+| 5 | Concept | How do you handle ConfigMap updates without restarting pods? What are the limitations of environment variable injection vs. volume mounts for ConfigMaps? |
+
+---
+
+### 🔧 Module 2.3 — Resource Management & Scheduling
+
+| # | Type | Question |
+|---|------|----------|
+| 1 | Concept | What is the difference between `requests` and `limits` for CPU and memory in Kubernetes? What happens if a container exceeds its memory limit? |
+| 2 | Scenario | Your .NET microservice is being OOMKilled in AKS. How do you diagnose the right memory limit, and what tuning strategies would you apply? |
+| 3 | Concept | What are `LimitRange` and `ResourceQuota` objects? How do you use them in a multi-tenant AKS environment with multiple teams? |
+| 4 | Scenario | You have a batch processing .NET job that spikes CPU for 5 minutes every hour. How do you configure resource requests/limits and scheduling to avoid impacting other microservices? |
+| 5 | Concept | What are Kubernetes Quality of Service (QoS) classes — Guaranteed, Burstable, and BestEffort? How does AKS use them during node pressure eviction? |
+| 6 | Concept | What is the Kubernetes scheduler's role, and what are `nodeSelector`, `nodeAffinity`, `podAffinity`, and `podAntiAffinity`? Give a scenario for each. |
+
+---
+
+## 📌 PHASE 3 — Networking & Ingress (Week 5–6)
+
+### 🌐 Module 3.1 — AKS Networking Deep Dive
+
+| # | Type | Question |
+|---|------|----------|
+| 1 | Concept | Explain how Pod-to-Pod communication works within an AKS cluster. What is the role of the CNI plugin? |
+| 2 | Concept | What is a `NetworkPolicy` in Kubernetes? How do you use it to restrict traffic between microservices in AKS? |
+| 3 | Scenario | Your payment microservice should only receive traffic from the order microservice and no other pods. How do you implement this using NetworkPolicy in AKS? |
+| 4 | Concept | What is the difference between East-West traffic and North-South traffic in AKS? How do Services and Ingress handle each? |
+| 5 | Scenario | You have 15 microservices deployed in AKS. You want inter-service communication without exposing anything externally. What service type and network policy design would you use? |
+
+---
+
+### 🌐 Module 3.2 — Ingress Controllers & API Gateway
+
+| # | Type | Question |
+|---|------|----------|
+| 1 | Concept | What is an Ingress resource and an Ingress Controller? How does NGINX Ingress differ from Azure Application Gateway Ingress Controller (AGIC)? |
+| 2 | Scenario | You need to route traffic for `api.myapp.com/orders` to your order service and `api.myapp.com/payments` to your payment service in AKS. How do you configure this? |
+| 3 | Concept | What is TLS termination at the Ingress level? How do you configure HTTPS with a Let's Encrypt certificate using cert-manager in AKS? |
+| 4 | Scenario | After deploying an Ingress rule, your Angular app gets CORS errors when calling the .NET API through the Ingress. How do you debug and fix this? |
+| 5 | Concept | What is the Azure Application Gateway Ingress Controller (AGIC)? When would you choose AGIC over NGINX Ingress for an enterprise AKS solution? |
+| 6 | Scenario | You want to perform blue-green traffic splitting (90/10) between two versions of your .NET API using Ingress annotations. How do you implement this? |
+
+---
+
+### 🌐 Module 3.3 — Service Mesh (Istio / Linkerd / OSM)
+
+| # | Type | Question |
+|---|------|----------|
+| 1 | Concept | What is a service mesh? What problems does it solve in a microservice architecture that plain Kubernetes services do not? |
+| 2 | Concept | What is the sidecar proxy pattern in Istio? How does Envoy intercept traffic without changing your .NET application code? |
+| 3 | Scenario | You need mutual TLS (mTLS) between all your .NET microservices in AKS without modifying application code. How does a service mesh help, and what is the configuration approach? |
+| 4 | Scenario | One of your microservices is causing latency spikes affecting the entire platform. How does distributed tracing in a service mesh (e.g., Jaeger via Istio) help you identify the culprit? |
+| 5 | Concept | What is a `VirtualService` and `DestinationRule` in Istio? How do you use them for circuit breaking and retry policies? |
+
+---
+
+## 📌 PHASE 4 — Storage & Stateful Workloads (Week 6–7)
+
+### 💾 Module 4.1 — Persistent Storage in AKS
+
+| # | Type | Question |
+|---|------|----------|
+| 1 | Concept | What is a `PersistentVolume (PV)` and `PersistentVolumeClaim (PVC)`? What is dynamic provisioning in AKS? |
+| 2 | Concept | What Azure storage options are available for AKS workloads — Azure Disks, Azure Files, Azure Blob CSI? When do you use each? |
+| 3 | Scenario | You deploy a SQL Server container on AKS and the pod restarts, losing all data. How do you configure persistent storage to survive pod restarts? |
+| 4 | Concept | What is a `StorageClass` in Kubernetes? What is the difference between `Retain` and `Delete` reclaim policies? |
+| 5 | Scenario | You need shared storage between 3 replicas of a .NET file-processing microservice in AKS. Azure Disk won't work here — why, and what do you use instead? |
+| 6 | Concept | What is the `ReadWriteOnce`, `ReadOnlyMany`, and `ReadWriteMany` access mode for PVCs? Which Azure storage types support each? |
+
+---
+
+## 📌 PHASE 5 — Security in AKS (Week 7–8)
+
+### 🔐 Module 5.1 — Identity & Access Management
+
+| # | Type | Question |
+|---|------|----------|
+| 1 | Concept | What is Kubernetes RBAC? What is the difference between a `Role`, `ClusterRole`, `RoleBinding`, and `ClusterRoleBinding`? |
+| 2 | Scenario | A developer should only be able to view pod logs in the `dev` namespace but should not be able to exec into pods or access secrets. How do you configure this in AKS? |
+| 3 | Concept | What is Azure Active Directory (Entra ID) integration with AKS? How does it work for authentication and authorization? |
+| 4 | Scenario | You need your .NET microservice pod to access an Azure Blob Storage container without storing credentials in Kubernetes Secrets. How do you use Workload Identity or Managed Identity in AKS? |
+| 5 | Concept | What is the AKS Workload Identity feature? How does it differ from AAD Pod Identity (deprecated)? |
+| 6 | Scenario | An audit shows that several pods in your cluster are running as root. What are the security risks, and how do you enforce non-root containers using `SecurityContext` and `PodSecurityAdmission`? |
+
+---
+
+### 🔐 Module 5.2 — Pod Security & Cluster Hardening
+
+| # | Type | Question |
+|---|------|----------|
+| 1 | Concept | What is Pod Security Admission (PSA)? What are the `Privileged`, `Baseline`, and `Restricted` policy levels? |
+| 2 | Concept | What is `OPA Gatekeeper` or `Azure Policy for AKS`? How do you enforce organizational policies (e.g., "all images must come from ACR only")? |
+| 3 | Scenario | You discover a microservice pod can reach the Kubernetes API server and list secrets. This was unintentional. How do you harden this? |
+| 4 | Concept | What is the AKS `private cluster` feature? What are the trade-offs in terms of CI/CD pipeline connectivity? |
+| 5 | Scenario | Your security team requires that all container images are scanned for vulnerabilities before being deployed to AKS. How do you integrate Microsoft Defender for Containers or Trivy into your pipeline? |
+
+---
+
+## 📌 PHASE 6 — Scaling & High Availability (Week 8–9)
+
+### 📈 Module 6.1 — Auto Scaling Strategies
+
+| # | Type | Question |
+|---|------|----------|
+| 1 | Concept | What is the difference between HPA (Horizontal Pod Autoscaler), VPA (Vertical Pod Autoscaler), and Cluster Autoscaler in AKS? |
+| 2 | Scenario | Your .NET order processing API experiences 10x traffic spikes during flash sales. How do you configure HPA to scale pods within 60 seconds based on CPU and custom metrics? |
+| 3 | Concept | What is KEDA (Kubernetes Event-Driven Autoscaling)? How does it integrate with RabbitMQ via MassTransit to scale consumers based on queue depth? |
+| 4 | Scenario | You have a MassTransit consumer service that processes RabbitMQ messages. The queue depth grows to 10,000 messages during peak hours. How do you use KEDA to auto-scale this service in AKS? |
+| 5 | Concept | What is the AKS Cluster Autoscaler? What conditions trigger a scale-out vs. scale-in event, and what are the risks of aggressive scale-in? |
+| 6 | Scenario | After enabling Cluster Autoscaler, new nodes take 4 minutes to join the cluster, causing timeout errors during scale-out. How do you reduce this startup time? |
+| 7 | Concept | What is KEDA's `ScaledObject`? How do you define scale-to-zero for a background processing service in AKS? |
+
+---
+
+### 📈 Module 6.2 — High Availability & Multi-Region
+
+| # | Type | Question |
+|---|------|----------|
+| 1 | Concept | How do you design an AKS cluster for high availability across Availability Zones? What changes in node pool configuration? |
+| 2 | Scenario | Your AKS cluster loses a full Availability Zone. How do you ensure your .NET microservices continue to serve traffic without manual intervention? |
+| 3 | Concept | What is `PodDisruptionBudget (PDB)`? How does it protect your services during node upgrades or Cluster Autoscaler scale-in? |
+| 4 | Scenario | You have 3 replicas of a critical .NET service. During an AKS node upgrade, all 3 replicas were restarted simultaneously causing downtime. How do you prevent this? |
+| 5 | Concept | What is a multi-region AKS strategy? How would you use Azure Traffic Manager or Azure Front Door with two AKS clusters in different regions? |
+
+---
+
+## 📌 PHASE 7 — CI/CD & GitOps (Week 9–10)
+
+### 🚢 Module 7.1 — CI/CD Pipelines for AKS
+
+| # | Type | Question |
+|---|------|----------|
+| 1 | Concept | What is the typical CI/CD pipeline flow for deploying a .NET microservice to AKS? What tools are used at each stage? |
+| 2 | Scenario | Your Azure DevOps pipeline needs to build a .NET Docker image, push to ACR, and deploy to AKS. Walk through the YAML pipeline design for this. |
+| 3 | Concept | What is Helm? How does it improve Kubernetes manifest management for deploying microservices compared to raw YAML? |
+| 4 | Scenario | You have 10 microservices with similar deployment patterns. How do you create a reusable Helm chart template to reduce duplication in your AKS deployments? |
+| 5 | Concept | What is the difference between `helm install`, `helm upgrade`, and `helm rollback`? How do you use Helm in a GitOps workflow? |
+
+---
+
+### 🚢 Module 7.2 — GitOps with Flux / ArgoCD
+
+| # | Type | Question |
+|---|------|----------|
+| 1 | Concept | What is GitOps? How does it differ from a traditional push-based CI/CD deployment model for AKS? |
+| 2 | Concept | What is Flux CD? How does the GitOps Toolkit work with AKS to reconcile desired state from Git to the cluster? |
+| 3 | Scenario | A developer directly applied a `kubectl apply` to the production AKS cluster, bypassing the GitOps pipeline. How does Flux detect and reconcile this drift? |
+| 4 | Concept | What is ArgoCD? How does it compare to Flux CD in terms of multi-cluster management and UI-driven operations? |
+| 5 | Scenario | You need to promote a release from `dev` → `staging` → `prod` AKS clusters. How do you structure your Git repo and Flux Kustomizations to support this? |
+| 6 | Concept | What is Kustomize, and how does it complement Helm and GitOps for managing environment-specific configurations in AKS? |
+
+---
+
+## 📌 PHASE 8 — Observability & Monitoring (Week 10–11)
+
+### 📊 Module 8.1 — Logging, Metrics & Tracing
+
+| # | Type | Question |
+|---|------|----------|
+| 1 | Concept | What is the observability triad — Logs, Metrics, Traces? How does each apply to troubleshooting a .NET microservice in AKS? |
+| 2 | Scenario | Your .NET microservice throws a 500 error in production AKS. Walk through how you would use Azure Monitor, Container Insights, and application logs to diagnose it. |
+| 3 | Concept | What is Azure Monitor Container Insights? What does it collect, and how does it differ from Prometheus + Grafana in AKS? |
+| 4 | Scenario | You want to create an alert in Azure Monitor that fires when any pod in AKS has memory usage above 80% for 5 consecutive minutes. How do you configure this? |
+| 5 | Concept | What is the Prometheus + Grafana stack? How do you deploy it on AKS, and how do you expose custom .NET metrics via `prometheus-net`? |
+| 6 | Scenario | You need to correlate a slow SQL Server query with a specific HTTP request trace in AKS. How do you achieve end-to-end distributed tracing across your .NET microservices? |
+| 7 | Concept | What is OpenTelemetry? How do you use it in .NET 8 applications to emit traces, metrics, and logs to Azure Monitor or Jaeger in AKS? |
+
+---
+
+### 📊 Module 8.2 — Alerting & SRE Practices
+
+| # | Type | Question |
+|---|------|----------|
+| 1 | Concept | What are SLOs, SLIs, and SLAs? How do you define and monitor them for a .NET API running in AKS? |
+| 2 | Scenario | Your error budget for a critical microservice is being consumed faster than expected. How do you use AKS observability tools to identify and address the root cause? |
+| 3 | Concept | What is the difference between `readinessProbe`, `livenessProbe`, and `startupProbe`? How do misconfigured probes cause cascading failures in AKS? |
+| 4 | Scenario | You deploy a .NET microservice that takes 45 seconds to warm up (loading caches from SQL Server). The liveness probe kills it before it's ready. How do you fix this? |
+
+---
+
+## 📌 PHASE 9 — Advanced AKS Topics (Week 11–12)
+
+### 🏆 Module 9.1 — AKS Upgrades & Maintenance
+
+| # | Type | Question |
+|---|------|----------|
+| 1 | Concept | What is the AKS node upgrade process? How does it differ for system node pools vs. user node pools? |
+| 2 | Scenario | You need to upgrade your AKS cluster from Kubernetes 1.28 to 1.30 with zero downtime across 50 microservices. What is your upgrade strategy? |
+| 3 | Concept | What is a node image upgrade in AKS? How is it different from a Kubernetes version upgrade? |
+| 4 | Scenario | After an AKS upgrade, one of your .NET services fails to start due to a deprecated API version in the deployment manifest. How do you identify and fix all deprecated API usages before upgrading? |
+| 5 | Concept | What is the AKS maintenance window feature? How do you configure planned maintenance to minimize impact on production workloads? |
+
+---
+
+### 🏆 Module 9.2 — Cost Optimization
+
+| # | Type | Question |
+|---|------|----------|
+| 1 | Concept | What are Spot Node Pools in AKS? What workloads are suitable for Spot nodes, and how do you handle evictions gracefully? |
+| 2 | Scenario | Your AKS cluster runs 24/7 even though dev workloads are only needed 8 hours a day. How do you automate node pool scaling to zero during off-hours to reduce costs? |
+| 3 | Concept | What is AKS `node auto-provisioning` (NAP) / Karpenter integration? How does it improve cost efficiency over traditional Cluster Autoscaler? |
+| 4 | Scenario | Your Azure bill shows AKS is overprovisioned by 40%. How do you use Azure Cost Management + VPA recommendations to right-size your workloads? |
+| 5 | Concept | What is the difference between Reserved Instances and Spot Instances for AKS node pools? How do you architect a hybrid node pool strategy? |
+
+---
+
+### 🏆 Module 9.3 — Multi-Tenancy & Enterprise Patterns
+
+| # | Type | Question |
+|---|------|----------|
+| 1 | Concept | What are the multi-tenancy models for AKS — namespace-based, cluster-per-team, and virtual cluster? What are the trade-offs? |
+| 2 | Scenario | Your company has 5 product teams sharing a single AKS cluster. How do you enforce resource isolation, network policies, and RBAC boundaries per team? |
+| 3 | Concept | What is the AKS `Fleet Manager`? How does it help manage multiple AKS clusters across regions and subscriptions? |
+| 4 | Scenario | You need to implement a disaster recovery strategy for AKS where RTO < 1 hour and RPO < 15 minutes. What components (Velero, geo-redundant ACR, Traffic Manager) do you use? |
+| 5 | Concept | What is Velero? How do you use it to back up and restore Kubernetes workloads and persistent volume data in AKS? |
+
+---
+
+## 📅 Study Planner Summary Table
+
+| Week | Phase | Focus Area | Key Outcomes |
+|------|-------|------------|--------------|
+| 1 | Phase 1 | Docker + K8s Foundations | Containers, Pods, Services |
+| 2 | Phase 1 | AKS Architecture | Node pools, Networking, Identity |
+| 3 | Phase 2 | Workload Management | Deployments, StatefulSets, Secrets |
+| 4 | Phase 2 | Resource Management | Scheduling, QoS, Autoscaling basics |
+| 5 | Phase 3 | Networking & Ingress | CNI, Ingress, NetworkPolicy |
+| 6 | Phase 3–4 | Service Mesh + Storage | Istio, PVCs, Azure Disks/Files |
+| 7 | Phase 5 | Security | RBAC, Workload Identity, Hardening |
+| 8 | Phase 6 | Scaling & HA | HPA, VPA, KEDA, PDB, Multi-AZ |
+| 9 | Phase 7 | CI/CD & GitOps | Helm, Flux, ArgoCD, Azure DevOps |
+| 10 | Phase 8 | Observability | Prometheus, Grafana, OpenTelemetry |
+| 11 | Phase 9 | Upgrades & Cost | Node upgrades, Spot nodes, NAP |
+| 12 | Phase 9 | Enterprise Patterns | Multi-tenancy, DR, Fleet Manager |
+
+---
+
+## 🎯 Pro Tips for Your AKS Journey
+
+> **Given your MassTransit/RabbitMQ background**, focus heavily on **KEDA with RabbitMQ scaler** — this is a killer scenario in interviews and real projects.
+
+> **Given your .NET background**, practice **Workload Identity** for accessing Azure SQL, Service Bus, and Blob Storage — avoid Kubernetes Secrets for credentials entirely.
+
+> **Given your microservices background**, prioritize **NetworkPolicy + Service Mesh** — understanding how traffic flows and how to secure it is critical for AKS at scale.
+
+> **Given your Azure background**, master **Azure Monitor + Container Insights + Log Analytics** integration — this is what separates AKS beginners from production engineers.
+
+---
+
+*Generated by GitHub Copilot | Full Stack Developer AKS Learning Planner*
