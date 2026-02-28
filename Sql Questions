@@ -1,0 +1,154 @@
+# 🗄️ SQL Server — Query Questions Only
+### Basics to Advanced | Write-the-Query Format
+
+---
+
+## 📦 Schema Reference
+
+```sql name=schema_reference.sql
+Departments  (DeptID, DeptName, Location)
+Employees    (EmpID, FirstName, LastName, DeptID, ManagerID, Salary, JoinDate, IsActive)
+Products     (ProductID, ProductName, CategoryID, Price, Stock)
+Categories   (CategoryID, CategoryName)
+Orders       (OrderID, CustomerID, OrderDate, Status, TotalAmount)
+OrderItems   (OrderItemID, OrderID, ProductID, Quantity, UnitPrice)
+Customers    (CustomerID, FullName, Email, City, CreatedDate)
+Salaries     (SalaryID, EmpID, Month, Year, Amount)
+UserLogins   (UserID, LoginDate)
+```
+
+---
+
+## 🟢 Level 1 — Basic
+
+1. Retrieve all **active employees** from the `HR` department with their full name and salary, ordered by salary descending.
+
+2. Find the **total number of employees** and **average salary** per department.
+
+3. List departments where the **average salary is greater than 60,000**.
+
+4. Get all customers whose **email domain is `gmail.com`**, displaying name and email in **UPPERCASE**.
+
+5. Find all employees who **joined in the last 2 years**.
+
+6. List all employees who **do not have a manager** (top-level employees).
+
+7. Display each employee's name, salary, and a **salary grade** label: `Low` (< 40K), `Medium` (40K–80K), `High` (> 80K).
+
+8. Find the **total revenue per month** from completed orders.
+
+9. List all **products that are out of stock** (Stock = 0).
+
+10. Find the **number of orders placed per customer**, sorted by most orders first.
+
+---
+
+## 🟡 Level 2 — Intermediate
+
+11. Find all employees whose salary is **above the company-wide average salary**.
+
+12. Find all customers who have **placed at least one order** — use `EXISTS`.
+
+13. Find all customers who have **never placed any order** — write using `NOT EXISTS`, `NOT IN`, and `LEFT JOIN`.
+
+14. Retrieve full **order details**: Customer Name, Order Date, Product Name, Quantity, Unit Price, and Line Total.
+
+15. Calculate a **running total of order amounts per customer**, ordered by order date.
+
+16. Rank employees **within each department** by salary (highest = Rank 1). Show `RANK`, `DENSE_RANK`, and `ROW_NUMBER` side by side.
+
+17. Find the **Top 3 highest-paid employees per department**.
+
+18. Calculate **monthly order revenue** and the **% growth compared to the previous month**.
+
+19. Show **total salary paid per department per year** in a **PIVOT** format (years as columns: 2022, 2023, 2024, 2025).
+
+20. Find all **products that have never been ordered**.
+
+21. List the **top 5 customers by total spend** across all completed orders.
+
+22. Find employees who share the **same salary as at least one other employee**.
+
+23. Get the **most recently placed order** for each customer.
+
+24. Find all orders where the **actual order item total does not match `TotalAmount`** in the Orders table.
+
+25. List employees who have **worked in the company for more than 5 years** and are still active.
+
+---
+
+## 🟠 Level 3 — Advanced
+
+26. Write a **Recursive CTE** to display the full employee org hierarchy (CEO → Manager → Employee) with depth level and full path.
+
+27. Find **consecutive date ranges** where each employee has uninterrupted monthly salary records (**Gap and Islands** problem).
+
+28. Find which **salary percentile** each employee falls into using `PERCENT_RANK()` and `CUME_DIST()`. Flag those in the **top 10%**.
+
+29. The `Orders` table has **duplicate rows** (same CustomerID + OrderDate). Keep only the **latest record** (highest OrderID) per group and delete the rest.
+
+30. Show **total sales by Category + Product, Category only, and Grand Total** — all in a single query using `GROUPING SETS`.
+
+31. Write a **stored procedure** that accepts optional filters — `CustomerID`, `Status`, `FromDate`, `ToDate` — and returns matching orders efficiently.
+
+32. Write a **MERGE statement** to sync `ProductsStaging` into `Products`:
+    - Insert new products
+    - Update price/stock for existing products
+    - Delete products not in staging
+
+33. The Orders table has a `MetaData NVARCHAR(MAX)` column storing JSON like:
+    `{"shipping":{"city":"New York","courier":"FedEx"},"priority":"High"}`
+    Extract **ShippingCity**, **Courier**, and **Priority** from the JSON.
+
+34. Rewrite two stored procedures that update `Orders` and `OrderItems` concurrently to **prevent deadlocks** using consistent lock ordering and `UPDLOCK` hints.
+
+35. Find the **average time (in days)** between a customer's consecutive orders.
+
+36. For each product, calculate the **month with the highest sales quantity** ever recorded.
+
+37. Find all customers who placed orders in **every month of 2025**.
+
+38. Identify employees whose **salary increased** in every single year they have a salary record.
+
+39. Write a query to **transpose rows to columns** without using `PIVOT` — using `CASE` + `MAX`.
+
+40. Find the **longest streak of consecutive months** any employee received a salary without a gap.
+
+---
+
+## 🔴 Level 4 — Expert / Interview Challenges
+
+41. Find the **2nd highest salary** — write it using 3 different methods (`OFFSET-FETCH`, subquery, `DENSE_RANK`).
+
+42. Find all employees who **earn more than their direct manager**.
+
+43. From `UserLogins(UserID, LoginDate)`, find all users who logged in for **3 or more consecutive days**.
+
+44. Find the **customer who placed the highest-value single order** in each city.
+
+45. Write a query to detect **slow-moving products** — products where the last order was more than 90 days ago.
+
+46. Find pairs of **customers who ordered the exact same set of products**.
+
+47. Calculate the **employee turnover rate per department per year** using the `Employees` table (assume a `ResignDate` column exists).
+
+48. From the `Orders` table, find customers who placed orders in **2024 but NOT in 2025** (churned customers).
+
+49. Find customers who placed orders in **both 2024 and 2025** (retained customers).
+
+50. Write a single query that shows for each department: **Total Employees, Active Employees, Average Salary, Highest Salary, Lowest Salary, and % of company headcount**.
+
+---
+
+## 📊 Quick Reference
+
+| Level | Questions | Key Concepts |
+|-------|-----------|-------------|
+| 🟢 Basic | Q1 – Q10 | SELECT, WHERE, JOIN, GROUP BY, HAVING, CASE |
+| 🟡 Intermediate | Q11 – Q25 | Subqueries, EXISTS, Window Functions, PIVOT, CTEs |
+| 🟠 Advanced | Q26 – Q40 | Recursive CTE, Gap & Islands, MERGE, JSON, GROUPING SETS |
+| 🔴 Expert | Q41 – Q50 | Complex analytics, Retention, Churn, Deadlocks, Self-JOIN |
+
+---
+
+> 💡 **Tip:** Start with Q1–Q10 as warmup, then aim to solve Q26–Q50 without hints for interview readiness.
