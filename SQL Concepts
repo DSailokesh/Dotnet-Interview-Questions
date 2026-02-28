@@ -1,0 +1,294 @@
+Here's your comprehensive **SQL Server Learning Planner** — structured from **Basics to Advanced**, with **scenario-based** and **concept-based** questions tailored for an experienced developer like you. This covers interview prep, real-world problem solving, and architectural depth.
+
+---
+
+# 🗄️ SQL Server Mastery Planner
+### From Basics → Advanced | Scenario & Concept-Based Questions
+
+---
+
+## 📅 Phase 1 — Foundations (Week 1–2)
+> *Goal: Solidify core concepts often taken for granted*
+
+---
+
+### 🔹 Module 1: SQL Server Architecture & Internals
+
+#### Concept-Based Questions:
+1. What are the core components of SQL Server architecture? (Storage Engine, Query Processor, SQLOS)
+2. What is the difference between **Data Pages**, **Extent**, and **IAM pages**?
+3. How does SQL Server manage **memory** — what is the Buffer Pool?
+4. What is the role of the **Transaction Log (LDF)** vs **Data File (MDF/NDF)**?
+5. What is **Write-Ahead Logging (WAL)** and why is it critical?
+
+#### Scenario-Based Questions:
+1. 🔥 Your SQL Server is consuming 95% of RAM. What do you investigate first? How do you differentiate memory pressure from a genuine memory need?
+2. Your database has one MDF file growing unboundedly. How would you add NDF files and redistribute data using **filegroups**?
+3. A junior dev asks why the transaction log grew to 200 GB overnight. Walk through your investigation steps.
+
+---
+
+### 🔹 Module 2: Data Types, NULLs & Collation
+
+#### Concept-Based Questions:
+1. What is the difference between `CHAR`, `VARCHAR`, `NVARCHAR`, and `NCHAR`? When do you use each?
+2. Why does `NULL = NULL` return `NULL` and not `TRUE`? How does `ANSI_NULLS` affect this?
+3. What are the hidden performance costs of using `NVARCHAR(MAX)` vs `NVARCHAR(255)`?
+4. What is **Collation** in SQL Server and how does a collation mismatch cause query failures?
+
+#### Scenario-Based Questions:
+1. 🔥 A JOIN between two tables fails silently and returns no rows. After investigation, you find both tables store the same data but were created with different collations. How do you fix this without altering the table?
+2. You're migrating a legacy system to SQL Server. The source uses ASCII strings, but your new system needs to support Unicode. What changes do you make and what risks exist?
+
+---
+
+### 🔹 Module 3: DDL, DML, DCL & TCL Mastery
+
+#### Concept-Based Questions:
+1. What is the difference between `TRUNCATE`, `DELETE`, and `DROP`? Which ones are logged?
+2. Can you `ROLLBACK` a `TRUNCATE`? Why or why not?
+3. What is the difference between `UNION` and `UNION ALL`? When should you prefer one over the other?
+4. What does `SET NOCOUNT ON` do and why is it recommended in stored procedures?
+
+#### Scenario-Based Questions:
+1. 🔥 A developer accidentally deleted 1 million rows from a production table. The operation was committed. What recovery options do you have?
+2. You need to delete 50 million rows from a table without locking it for 30 minutes. How do you batch-delete efficiently?
+
+---
+
+## 📅 Phase 2 — Intermediate Concepts (Week 3–4)
+> *Goal: Master querying, joins, indexes, and transactions*
+
+---
+
+### 🔹 Module 4: Joins & Set Operations
+
+#### Concept-Based Questions:
+1. Explain the difference between `INNER JOIN`, `LEFT JOIN`, `CROSS JOIN`, and `SELF JOIN` with execution implications.
+2. What is a **Hash Join**, **Nested Loop Join**, and **Merge Join**? When does SQL Server choose each?
+3. What is the difference between correlated and non-correlated subqueries? Which performs better and when?
+
+#### Scenario-Based Questions:
+1. 🔥 A query with 5 table JOINs is running slow. After checking the execution plan, you see a **Hash Join** where a **Nested Loop** was expected. What does this indicate and how do you optimize?
+2. You need to find all customers who have **never placed an order**. Write it using `LEFT JOIN`, `NOT EXISTS`, and `NOT IN`. Which is most performant and why?
+3. A report query uses `SELECT *` with 6 joins and runs in 40 seconds. What's your optimization approach?
+
+---
+
+### 🔹 Module 5: Indexes — Deep Dive
+
+#### Concept-Based Questions:
+1. What is the difference between a **Clustered Index** and a **Non-Clustered Index**?
+2. Can a table have more than one clustered index? Why or why not?
+3. What is an **Index Seek** vs **Index Scan**? Which is preferred?
+4. What are **Covering Indexes** and **Included Columns**? How do they eliminate Key Lookups?
+5. What is **Index Fragmentation**? Difference between `REBUILD` and `REORGANIZE`?
+6. What are **Filtered Indexes** and when would you use them?
+7. What are **Composite Indexes** and what is **column order significance**?
+
+#### Scenario-Based Questions:
+1. 🔥 A table has 50 indexes. Inserts are now taking 10x longer than 6 months ago. How do you identify and resolve this?
+2. Your query: `SELECT Name, Email FROM Users WHERE Status = 'Active'` is doing a Full Table Scan. Design the ideal index and explain why.
+3. You have a query that filters on `WHERE CreatedDate > '2025-01-01' AND IsDeleted = 0`. Design a **Filtered Index** and justify its use.
+4. After a nightly batch insert of 10 million rows, performance degrades. You suspect index fragmentation. What's your remediation plan?
+
+---
+
+### 🔹 Module 6: Transactions & Locking
+
+#### Concept-Based Questions:
+1. What are the **ACID properties**? Give a SQL Server-specific example for each.
+2. What are the SQL Server **Isolation Levels**? Explain each with a real-world analogy.
+3. What is a **Deadlock**? How does SQL Server detect and resolve it?
+4. What is the difference between **Pessimistic** and **Optimistic Concurrency**?
+5. What is **Row Versioning** and how does **SNAPSHOT Isolation** use it?
+6. What is the difference between `NOLOCK` hint and `READ UNCOMMITTED` isolation? What are the dangers?
+
+#### Scenario-Based Questions:
+1. 🔥 Two microservices are simultaneously updating the same `Orders` and `Inventory` tables but in different orders. Users report deadlock errors. How do you diagnose and fix this?
+2. A reporting query using `READ UNCOMMITTED` is returning inconsistent totals. A developer argues it's faster. How do you justify switching to **SNAPSHOT Isolation**?
+3. Your .NET microservice wraps 3 DB operations in a `TransactionScope`. Occasionally, it escalates to a **Distributed Transaction**. Why does this happen and how do you prevent it?
+
+---
+
+## 📅 Phase 3 — Advanced Querying (Week 5–6)
+> *Goal: CTEs, Window Functions, Dynamic SQL, and Query Optimization*
+
+---
+
+### 🔹 Module 7: CTEs, Recursive Queries & Window Functions
+
+#### Concept-Based Questions:
+1. What is a **CTE** and how does it differ from a **Subquery** and a **Temp Table** in execution?
+2. What is a **Recursive CTE**? What is the anchor member and recursive member?
+3. Explain these Window Functions with use cases: `ROW_NUMBER()`, `RANK()`, `DENSE_RANK()`, `NTILE()`, `LAG()`, `LEAD()`, `SUM() OVER()`
+4. What is the difference between `PARTITION BY` and `GROUP BY`?
+
+#### Scenario-Based Questions:
+1. 🔥 You have an `Employees` table with `EmployeeID` and `ManagerID`. Write a recursive CTE to find the full hierarchy from CEO down to any employee.
+2. You need to find the **Top 3 selling products per category** in a single query. Use Window Functions.
+3. A financial system needs to calculate a **running total of daily transactions** per account. Write this using `SUM() OVER()` with `PARTITION BY` and `ORDER BY`.
+4. Find employees whose salary is **above average within their own department** without using a subquery or CTE referencing GROUP BY.
+
+---
+
+### 🔹 Module 8: Stored Procedures, Functions & Triggers
+
+#### Concept-Based Questions:
+1. What is the difference between a **Stored Procedure**, **Scalar Function**, **Table-Valued Function**, and **Inline TVF**?
+2. Why can **Scalar UDFs** kill query performance in SQL Server? What is the fix in SQL Server 2019+?
+3. What is **Parameter Sniffing**? Why is it both useful and problematic?
+4. What are the differences between `AFTER`, `INSTEAD OF`, and `FOR` triggers?
+5. What is **Deferred Name Resolution** in stored procedures?
+
+#### Scenario-Based Questions:
+1. 🔥 A stored procedure was fast for 6 months. After a data growth event, it suddenly became slow for specific parameter values but fast for others. Diagnose and fix the **Parameter Sniffing** issue.
+2. You have a scalar UDF called in a `WHERE` clause across 10 million rows. Performance is terrible. How do you refactor it?
+3. A trigger on an `Orders` table is causing deadlocks. How do you investigate and resolve without removing the trigger?
+
+---
+
+### 🔹 Module 9: Dynamic SQL & Injection Prevention
+
+#### Concept-Based Questions:
+1. When is **Dynamic SQL** appropriate? What are the risks?
+2. How does `sp_executesql` differ from `EXEC()` in terms of plan caching and security?
+3. What is **SQL Injection** and how does parameterization prevent it?
+4. What are **Execution Plan** caching implications of Dynamic SQL?
+
+#### Scenario-Based Questions:
+1. 🔥 You need to build a stored procedure that accepts optional filters (Name, Date, Status) and only applies them when provided. Write this using Dynamic SQL safely with `sp_executesql`.
+2. A legacy application builds SQL strings by concatenating user input. You are asked to secure it. What's your approach?
+
+---
+
+## 📅 Phase 4 — Performance Tuning & Execution Plans (Week 7–8)
+> *Goal: Master query optimization like a DBA*
+
+---
+
+### 🔹 Module 10: Execution Plans & Query Optimization
+
+#### Concept-Based Questions:
+1. What is the difference between an **Estimated** and **Actual Execution Plan**?
+2. What are the most common **bad operators** to look for in an execution plan? (Key Lookup, Table Scan, Hash Spill, Sort with warning)
+3. What is **Statistics** in SQL Server? How does the Query Optimizer use them?
+4. What is a **Sargable** query? Give examples of non-sargable predicates.
+5. What does `SET STATISTICS IO ON` tell you and how do you use it?
+
+#### Scenario-Based Questions:
+1. 🔥 A query has a **Key Lookup** operator causing 80% of query cost. How do you eliminate it?
+2. You run `SET STATISTICS IO ON` and see `logical reads: 450,000` for a query. Walk through your optimization strategy.
+3. A query with `WHERE YEAR(OrderDate) = 2025` is slow. Why? Rewrite it to be sargable.
+4. Statistics haven't been updated in 3 months on a 500M row table. What symptoms would you see and how do you fix it?
+
+---
+
+### 🔹 Module 11: Temp Tables, Table Variables & CTEs — Performance Comparison
+
+#### Concept-Based Questions:
+1. What is the difference between `#TempTable`, `##GlobalTempTable`, `@TableVariable`, and CTE in terms of scope, logging, and statistics?
+2. When does a Table Variable cause performance issues compared to a Temp Table?
+3. What is **Tempdb Contention** and how do you diagnose it?
+
+#### Scenario-Based Questions:
+1. 🔥 A stored procedure uses a `@TableVariable` with 500,000 rows and runs slowly. Switching to a `#TempTable` fixes it. Why?
+2. Your production server shows **TempDB contention** during peak hours. What are the causes and solutions?
+
+---
+
+## 📅 Phase 5 — Advanced Architecture (Week 9–10)
+> *Goal: High Availability, Security, and Enterprise patterns*
+
+---
+
+### 🔹 Module 12: High Availability & Disaster Recovery
+
+#### Concept-Based Questions:
+1. What are the differences between **Always On Availability Groups**, **Log Shipping**, **Database Mirroring**, and **Replication**?
+2. What is an **RTO** and **RPO**? How do AG configurations affect them?
+3. What are **Synchronous** vs **Asynchronous** commit modes in Availability Groups?
+4. What is a **Readable Secondary** and what are its limitations?
+
+#### Scenario-Based Questions:
+1. 🔥 Your primary replica in an Always On AG fails at 2 AM. Walk through the failover process and what you validate post-failover.
+2. You need zero data loss for financial transactions but the secondary is in another Azure region with 50ms latency. What commit mode do you choose and what is the tradeoff?
+
+---
+
+### 🔹 Module 13: Partitioning, Archiving & Large-Scale Data
+
+#### Concept-Based Questions:
+1. What is **Table Partitioning**? What is a **Partition Function** and **Partition Scheme**?
+2. What is **Partition Elimination** and how does it improve performance?
+3. What is **Partition Switching** and how is it used for archiving?
+
+#### Scenario-Based Questions:
+1. 🔥 You have a `Transactions` table with 2 billion rows. Queries for the current month are slow. Design a partitioning strategy.
+2. You need to archive data older than 2 years from a live table to an archive table **without downtime**. Use Partition Switching.
+
+---
+
+### 🔹 Module 14: Security — Row-Level, Column-Level, Encryption
+
+#### Concept-Based Questions:
+1. What is **Row-Level Security (RLS)**? How is it implemented using Security Policies?
+2. What is **Dynamic Data Masking** and what are its limitations?
+3. What is **Transparent Data Encryption (TDE)**? What does it protect against?
+4. What is the difference between `GRANT`, `DENY`, and `REVOKE`?
+5. What is the **principle of least privilege** in SQL Server context?
+
+#### Scenario-Based Questions:
+1. 🔥 A multi-tenant SaaS application stores all tenants in a shared database. How do you implement **Row-Level Security** so each tenant only sees their own data?
+2. A compliance requirement mandates that SSN and Credit Card numbers must never be visible to app developers in query results. Implement **Dynamic Data Masking**.
+
+---
+
+### 🔹 Module 15: SQL Server in Microservice Architecture
+
+#### Concept-Based Questions:
+1. How do you handle **distributed transactions** across microservices that each own their own SQL Server database?
+2. What is the **Outbox Pattern** and how do you implement it in SQL Server with RabbitMQ/MassTransit?
+3. What is **Event Sourcing** and how does SQL Server fit in as an event store?
+4. How do you handle **database migrations** in a Kubernetes-deployed microservice (e.g., using EF Core migrations or Flyway)?
+5. How do you implement **Saga Pattern** with SQL Server as the state store?
+
+#### Scenario-Based Questions:
+1. 🔥 Your `OrderService` writes to SQL Server and publishes to RabbitMQ, but occasionally the DB write succeeds while the message publish fails. How do you solve this with the **Outbox Pattern**?
+2. You have 5 microservices each with their own SQL Server DB. A business report needs data from all 5. What approach do you use — API aggregation, CQRS read model, or a reporting DB? Justify.
+3. In Kubernetes, your SQL Server pod gets restarted during peak load. How do you handle connection resiliency in your .NET app using **Polly** + **EF Core retry policies**?
+
+---
+
+## 📊 Summary Planner Table
+
+| Phase | Topic | Duration | Difficulty |
+|-------|-------|----------|------------|
+| Phase 1 | Architecture, Data Types, DDL/DML | Week 1–2 | 🟢 Basics |
+| Phase 2 | Joins, Indexes, Transactions & Locking | Week 3–4 | 🟡 Intermediate |
+| Phase 3 | CTEs, Window Functions, Stored Procs, Dynamic SQL | Week 5–6 | 🟠 Advanced Querying |
+| Phase 4 | Execution Plans, Performance Tuning, TempDB | Week 7–8 | 🔴 Expert |
+| Phase 5 | HA/DR, Partitioning, Security, Microservice Integration | Week 9–10 | 🔴 Architect Level |
+
+---
+
+## 🎯 Key Focus Areas for Your Profile (8 Years / Full Stack + Microservices)
+
+Since you work with **.NET + Microservices + RabbitMQ + Azure + Kubernetes**, pay extra attention to:
+
+| Priority | Topic |
+|----------|-------|
+| ⭐⭐⭐ | Outbox Pattern with SQL Server + MassTransit |
+| ⭐⭐⭐ | Distributed Transaction handling (Saga, eventual consistency) |
+| ⭐⭐⭐ | EF Core query performance vs raw SQL |
+| ⭐⭐⭐ | Connection pooling and resiliency in containerized environments |
+| ⭐⭐ | Azure SQL vs SQL Server on-prem differences |
+| ⭐⭐ | Always On AG in Azure (HADR) |
+| ⭐⭐ | Index strategy for high-write microservice tables |
+
+---
+
+Would you like me to:
+- 📝 **Create a GitHub Issue** in a repository to track this planner?
+- 🧩 **Deep-dive into any specific module** with more questions?
+- 📄 **Generate a planner for another tech stack** (Angular, .NET, Kubernetes, RabbitMQ, Azure)?
