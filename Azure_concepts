@@ -1,0 +1,401 @@
+This is a knowledge/planning request, not a code search task. I'll craft a comprehensive Azure Services Learning Planner directly.
+
+---
+
+# 🚀 Azure Services Learning Planner
+### For Full Stack Developers (8 Years Experience) — Basics to Advanced
+**Focus: Azure Blob Storage | Azure Functions | App Service | ACR | IAM | AKS Built-in Services**
+
+---
+
+## 📋 Planner Overview
+
+| Phase | Level | Duration (Suggested) |
+|-------|-------|----------------------|
+| Phase 1 | Fundamentals | Week 1–2 |
+| Phase 2 | Intermediate | Week 3–5 |
+| Phase 3 | Advanced | Week 6–9 |
+| Phase 4 | Scenario-Based Mastery | Week 10–12 |
+
+---
+
+---
+
+# 🗂️ MODULE 1 — Azure Blob Storage
+
+## ✅ Phase 1: Fundamentals
+
+### Concepts
+- What is Azure Blob Storage? Containers, Blobs, Accounts
+- Blob types: Block Blob, Append Blob, Page Blob
+- Access tiers: Hot, Cool, Archive
+- Storage account types: LRS, GRS, ZRS, GZRS
+- Public vs Private access levels
+- SAS Tokens vs Access Keys vs Managed Identity
+
+### Concept-Based Questions
+1. What are the differences between Block, Append, and Page Blobs? When would you choose each?
+2. You need to store log files that are written sequentially and rarely read. Which blob type and access tier would you choose and why?
+3. What is the difference between LRS and GRS replication? In which scenario would you prefer GRS over LRS?
+
+---
+
+## ✅ Phase 2: Intermediate
+
+### Concepts
+- Lifecycle Management Policies (auto-tier/delete blobs)
+- Blob versioning and Soft Delete
+- Immutability Policies (WORM - Write Once Read Many)
+- Static Website Hosting from Blob Storage
+- CDN integration with Blob Storage
+- Shared Access Signature (SAS): User Delegation SAS vs Service SAS vs Account SAS
+- Private Endpoints for Blob Storage
+
+### Scenario-Based Questions
+1. **Scenario:** Your application stores user profile images. After 30 days of no access, they should move to Cool tier; after 180 days, they should be deleted. How do you implement this?
+2. **Scenario:** A compliance requirement states that financial records stored in Blob must not be modified or deleted for 7 years. What feature do you use and how do you configure it?
+3. **Scenario:** You need to give a third-party vendor temporary read access to a specific container for 2 hours without sharing your account keys. How do you handle this securely?
+
+---
+
+## ✅ Phase 3: Advanced
+
+### Concepts
+- Blob Storage Events with Event Grid
+- Change Feed for Blob Storage
+- Customer-Managed Keys (CMK) with Azure Key Vault
+- Network rules: VNet Service Endpoints vs Private Endpoints
+- Blob Storage with Azure Data Factory / Synapse
+- Multipart upload patterns for large files
+- Optimistic concurrency with ETags and Lease Blobs
+
+### Scenario-Based Questions
+1. **Scenario:** Your microservice needs to trigger a downstream event (via RabbitMQ/MassTransit) whenever a new file is uploaded to Blob. How do you architect this using Azure Blob + Event Grid + Azure Functions?
+2. **Scenario:** Your storage account keys were accidentally exposed. What immediate steps do you take, and how do you prevent key exposure in the future using Managed Identity?
+3. **Scenario:** You have a .NET microservice that uploads 2GB files to Blob Storage. Uploads are timing out. How do you solve this using chunked/multipart upload with the Azure SDK?
+4. **Scenario:** Two microservices try to update the same blob simultaneously. How do you handle concurrency conflicts using ETag/lease mechanisms in .NET?
+
+---
+
+---
+
+# ⚡ MODULE 2 — Azure Functions
+
+## ✅ Phase 1: Fundamentals
+
+### Concepts
+- What are Azure Functions? Serverless compute model
+- Hosting plans: Consumption, Premium, Dedicated (App Service Plan)
+- Triggers: HTTP, Timer, Blob, Queue, Service Bus, Event Grid, Cosmos DB
+- Bindings: Input vs Output bindings
+- Durable Functions: Orchestrator, Activity, Entity functions
+- Function lifecycle and cold starts
+
+### Concept-Based Questions
+1. What is the difference between Consumption Plan and Premium Plan for Azure Functions? When would cold starts be a concern?
+2. Explain the difference between a Trigger and a Binding in Azure Functions. Can a function have multiple output bindings?
+3. What is the difference between Durable Functions' Orchestrator function and Activity function? What constraints exist on Orchestrator code?
+
+---
+
+## ✅ Phase 2: Intermediate
+
+### Concepts
+- Durable Functions patterns: Function Chaining, Fan-Out/Fan-In, Async HTTP API, Monitor Pattern, Human Interaction
+- Dependency Injection in Azure Functions (.NET Isolated / In-Process)
+- Azure Functions + MassTransit integration
+- Managing secrets with Azure Key Vault references in `local.settings.json` / App Settings
+- Function versioning and deployment slots
+- Function App configuration: WEBSITE_RUN_FROM_PACKAGE
+
+### Scenario-Based Questions
+1. **Scenario:** You need to process 1,000 orders in parallel — each order calls an external API and writes to SQL Server. How do you implement this using Durable Functions Fan-Out/Fan-In pattern?
+2. **Scenario:** You have a Function triggered by a Service Bus queue (MassTransit consumer). How do you ensure idempotency if the same message is delivered more than once?
+3. **Scenario:** Your Azure Function needs to retrieve a connection string from Key Vault without storing credentials in code or App Settings directly. How do you configure this?
+
+---
+
+## ✅ Phase 3: Advanced
+
+### Concepts
+- Azure Functions in a VNet (VNet Integration + Private Endpoints)
+- Running Azure Functions in Kubernetes (KEDA-based scaling)
+- Custom handlers for non-supported languages
+- Azure Functions + Event Grid vs Service Bus: choosing the right trigger
+- Blue/Green deployments using Function Deployment Slots
+- Functions with Managed Identity accessing Blob, SQL, Service Bus
+- Performance tuning: host.json configurations (maxConcurrentCalls, batchSize, prefetchCount)
+
+### Scenario-Based Questions
+1. **Scenario:** Your Function App processes messages from Service Bus but starts consuming too many messages when load spikes, causing downstream DB bottlenecks. How do you tune `host.json` to throttle processing?
+2. **Scenario:** You're deploying Azure Functions to AKS using KEDA. A Service Bus queue drives scale-out. Walk through the KEDA ScaledObject configuration and how it interacts with your Function App.
+3. **Scenario:** A Function needs zero-downtime deployment. You're using a Premium Plan. How do you use Deployment Slots and swap strategy to achieve this?
+4. **Scenario:** Your Function App inside a VNet needs to call a private API (inside the same VNet) and also write to Blob Storage privately. How do you configure VNet Integration and Private Endpoints together?
+
+---
+
+---
+
+# 🌐 MODULE 3 — Azure App Service
+
+## ✅ Phase 1: Fundamentals
+
+### Concepts
+- App Service Plans: Free, Shared, Basic, Standard, Premium, Isolated
+- Web Apps vs API Apps vs Mobile Apps
+- Deployment methods: ZIP Deploy, Git Deploy, GitHub Actions, Azure DevOps
+- Application settings vs Connection Strings
+- Custom domains and SSL/TLS bindings
+- Always On setting and its importance
+
+### Concept-Based Questions
+1. What is an App Service Plan? Can multiple App Services share the same plan? What are the implications?
+2. What is the difference between Application Settings and Connection Strings in App Service? How are they exposed to a .NET application?
+3. When would you choose App Service Isolated (ASE) over App Service Premium?
+
+---
+
+## ✅ Phase 2: Intermediate
+
+### Concepts
+- Deployment Slots: Staging, Production, slot swap
+- Auto-scaling: manual scale, schedule-based, metric-based
+- App Service Authentication / EasyAuth (built-in AAD, social login)
+- Health Check endpoint configuration
+- Continuous Deployment with GitHub Actions to App Service
+- Diagnostic logs: Application Logging, Web Server Logging, App Service Logs
+- App Service with VNet Integration (Regional VNet Integration)
+
+### Scenario-Based Questions
+1. **Scenario:** You're deploying a new version of your .NET API. You want to test it with 10% of production traffic before full rollout. How do you implement this using Deployment Slots and Traffic Splitting?
+2. **Scenario:** Your App Service is deployed in a private VNet and needs to access an Azure SQL Database without traversing the public internet. How do you configure this?
+3. **Scenario:** Your Angular SPA is hosted on App Service and users are experiencing random 502/503 errors under load. What metrics and diagnostics would you check first, and how would you configure auto-scaling to mitigate this?
+
+---
+
+## ✅ Phase 3: Advanced
+
+### Concepts
+- App Service Environment (ASE v3): internal vs external load balancer
+- App Service with Front Door / Application Gateway for WAF
+- Managed Identity from App Service accessing downstream Azure resources
+- Multi-region deployment with Traffic Manager / Front Door
+- App Service and Key Vault reference in Application Settings
+- Monitoring with Application Insights (SDK vs codeless attach)
+- Performance profiling with App Service Diagnostics (Kudu)
+
+### Scenario-Based Questions
+1. **Scenario:** Your .NET API on App Service serves global users. EU users report high latency. How do you architect a multi-region active-passive or active-active setup using Azure Front Door and App Service?
+2. **Scenario:** A security audit requires that your App Service should only be accessible through an Application Gateway with WAF enabled, and its public endpoint must be disabled. How do you implement this with Access Restrictions and Private Endpoints?
+3. **Scenario:** Your App Service is experiencing memory leaks under load. How do you use Kudu, Application Insights Profiler, and auto-healing rules to diagnose and mitigate this?
+4. **Scenario:** You need to migrate a legacy on-premise .NET Framework 4.8 app to App Service with minimal code change. What are the key considerations around OS selection, app settings migration, and custom domain/SSL?
+
+---
+
+---
+
+# 🐳 MODULE 4 — Azure Container Registry (ACR)
+
+## ✅ Phase 1: Fundamentals
+
+### Concepts
+- What is ACR? Registries, Repositories, Tags, Manifests
+- ACR SKUs: Basic, Standard, Premium
+- Pushing and pulling images: `az acr login`, `docker push/pull`
+- ACR Tasks: Quick Tasks (`az acr build`)
+- Geo-replication (Premium feature)
+- ACR webhooks
+
+### Concept-Based Questions
+1. What is the difference between ACR Basic, Standard, and Premium tiers? When is geo-replication important?
+2. How does ACR integrate with AKS for pulling container images? What authentication mechanism is used?
+3. What is an ACR Task, and how does it differ from a standard `docker build` and `docker push`?
+
+---
+
+## ✅ Phase 2: Intermediate
+
+### Concepts
+- Managed Identity for ACR pull (AKS Kubelet Managed Identity)
+- Image signing with Notary / Content Trust
+- Vulnerability scanning with Microsoft Defender for Containers
+- ACR Tasks: multi-step tasks, base image update triggers
+- Retention Policies for untagged manifests
+- ACR Private Endpoint
+
+### Scenario-Based Questions
+1. **Scenario:** Your AKS cluster must pull images from ACR without storing credentials as Kubernetes secrets. How do you configure this using Managed Identity?
+2. **Scenario:** Your CI/CD pipeline builds a Docker image and pushes it to ACR. You want ACR to automatically rebuild downstream images whenever a base image (e.g., `mcr.microsoft.com/dotnet/aspnet:8.0`) is updated. How do you set this up?
+3. **Scenario:** Your ACR has accumulated thousands of untagged image manifests over months of CI builds, consuming excessive storage. How do you configure a retention policy to clean these up?
+
+---
+
+## ✅ Phase 3: Advanced
+
+### Concepts
+- ACR Geo-replication for global AKS deployments
+- Private Link + DNS configuration for ACR in a private AKS cluster
+- ACR with Azure DevOps / GitHub Actions CI/CD pipelines (service connection, OIDC)
+- Supply Chain Security: image signing, SBOM, cosign integration
+- Helm chart storage in ACR (OCI artifacts)
+- ACR Token-based repository-scoped permissions
+
+### Scenario-Based Questions
+1. **Scenario:** You have a private AKS cluster (no public internet access). How do you configure ACR with Private Endpoint so the cluster can pull images without going through the public internet? Include DNS configuration details.
+2. **Scenario:** Your organization requires that only signed container images can be deployed to production AKS. How do you implement image signing using Azure ACR + cosign + Azure Policy or Gatekeeper?
+3. **Scenario:** Your GitHub Actions CI pipeline needs to push images to ACR. You want to avoid storing ACR credentials as GitHub secrets. How do you use OIDC Federated Identity with a Service Principal or Managed Identity?
+
+---
+
+---
+
+# 🔐 MODULE 5 — Azure IAM (Identity & Access Management)
+
+## ✅ Phase 1: Fundamentals
+
+### Concepts
+- Azure AD (Entra ID) vs Azure RBAC
+- Security Principals: Users, Groups, Service Principals, Managed Identities
+- RBAC: Role Definitions, Role Assignments, Scope (Management Group → Subscription → Resource Group → Resource)
+- Built-in roles: Owner, Contributor, Reader, and resource-specific roles
+- Managed Identity: System-assigned vs User-assigned
+- Azure AD App Registrations vs Enterprise Applications
+
+### Concept-Based Questions
+1. What is the difference between a Service Principal and a Managed Identity? When would you use each?
+2. Explain the RBAC scope hierarchy. If you assign a role at the Subscription scope, does it apply to all Resource Groups under it?
+3. What is the difference between System-assigned and User-assigned Managed Identity? When is User-assigned preferred?
+
+---
+
+## ✅ Phase 2: Intermediate
+
+### Concepts
+- Privileged Identity Management (PIM): Just-In-Time access
+- Conditional Access Policies
+- Azure AD B2C vs Azure AD B2B
+- RBAC custom role definitions
+- Managed Identity accessing: Key Vault, Blob, SQL, Service Bus
+- Azure Policy vs RBAC: what each enforces
+- Service Principal certificate-based vs secret-based authentication
+
+### Scenario-Based Questions
+1. **Scenario:** Your .NET microservice running in App Service needs to read secrets from Key Vault and write to a Service Bus topic. It should use no stored credentials anywhere. How do you configure this end-to-end using Managed Identity and RBAC?
+2. **Scenario:** A developer accidentally got `Owner` access on a Production subscription. You need to enforce Just-In-Time access so no one has standing privileged access. How do you implement this with PIM?
+3. **Scenario:** You need to create a custom RBAC role that allows a team to read and list blobs in a specific storage account but cannot delete or write. How do you define this custom role?
+
+---
+
+## ✅ Phase 3: Advanced
+
+### Concepts
+- Workload Identity Federation (OIDC): GitHub Actions, Kubernetes Workload Identity
+- Azure Workload Identity for AKS (replacing AAD Pod Identity)
+- Cross-tenant access and B2B federation
+- Managed Identity in AKS: Kubelet Identity, Control Plane Identity
+- Azure AD Application Permissions: Delegated vs Application permissions, Admin Consent
+- Key Vault access: RBAC model vs Access Policies model
+- Zero Trust principles in Azure IAM
+
+### Scenario-Based Questions
+1. **Scenario:** You're migrating from AAD Pod Identity to Azure Workload Identity in AKS. Walk through the steps to configure a service account + federated credential so a .NET pod can access Azure Key Vault without any secrets.
+2. **Scenario:** Your GitHub Actions pipeline needs to deploy to Azure (push to ACR, deploy to AKS) without storing any Azure credentials in GitHub. How do you configure OIDC Workload Identity Federation?
+3. **Scenario:** A security review flags that your Key Vault uses the legacy "Access Policies" model. You are asked to migrate it to the RBAC model. What are the steps, risks, and rollback strategy?
+4. **Scenario:** Your multi-tenant SaaS application (hosted on AKS) needs to call Microsoft Graph API on behalf of enterprise customers. How do you model this with Azure AD B2B and Application Permissions?
+
+---
+
+---
+
+# ☸️ MODULE 6 — AKS Built-in Services
+
+## ✅ Phase 1: Fundamentals
+
+### Concepts
+- AKS architecture: Control Plane (managed by Azure) vs Node Pools
+- System Node Pool vs User Node Pool
+- Managed Identity for AKS (Control Plane + Kubelet)
+- AKS Networking modes: Kubenet vs Azure CNI vs Azure CNI Overlay
+- AKS integrated services: ACR, Key Vault CSI Driver, Azure Monitor, Azure Policy
+- Cluster autoscaler vs Horizontal Pod Autoscaler (HPA) vs KEDA
+- Azure Container Storage / Azure Disk / Azure Files as PVCs
+
+### Concept-Based Questions
+1. What is the difference between Kubenet and Azure CNI networking in AKS? What are the tradeoffs?
+2. What are System Node Pools and why must they exist in an AKS cluster? Can you run application workloads on them?
+3. What is the difference between Cluster Autoscaler and HPA? Can both work together?
+
+---
+
+## ✅ Phase 2: Intermediate
+
+### Concepts
+- Azure Key Vault CSI Driver (Secret Store CSI): mounting secrets as volumes or env vars
+- Azure Workload Identity integration with AKS
+- Azure Application Gateway Ingress Controller (AGIC)
+- Azure Monitor for Containers (Container Insights) + Log Analytics
+- AKS Upgrade strategy: node image upgrade vs cluster upgrade
+- Azure Policy Add-on for AKS (Gatekeeper-based OPA policies)
+- KEDA (Kubernetes Event-Driven Autoscaling) with Azure Service Bus / Storage Queue
+
+### Scenario-Based Questions
+1. **Scenario:** Your .NET microservice pod needs to access a Key Vault secret at runtime without mounting it as a Kubernetes Secret (to avoid secret sprawl). How do you configure the Key Vault CSI Driver with Workload Identity in AKS?
+2. **Scenario:** You need to scale a consumer pod from 0 to N based on Azure Service Bus queue depth (replacing your RabbitMQ-based consumer). How do you configure KEDA with a Service Bus trigger in AKS?
+3. **Scenario:** Your AKS cluster is running v1.28 and needs to upgrade to v1.30. You have stateful workloads. What is your upgrade strategy to minimize downtime using node surges and PodDisruptionBudgets?
+
+---
+
+## ✅ Phase 3: Advanced
+
+### Concepts
+- Private AKS Cluster: private API server, private node pools, private ACR, private endpoints
+- AKS with Azure CNI + Network Policies (Calico/Azure)
+- GitOps with AKS: Flux v2 (AKS built-in GitOps extension)
+- AKS Service Mesh: Istio add-on (managed)
+- AKS multi-cluster with Azure Fleet Manager
+- Azure Defender for Containers (runtime threat detection)
+- AKS cost optimization: Spot Node Pools, Start/Stop cluster, KEDA zero-scale
+- Dapr add-on for AKS (Distributed Application Runtime)
+
+### Scenario-Based Questions
+1. **Scenario:** You need to deploy a private AKS cluster where the API server is not accessible from the public internet, nodes pull images from a private ACR, and secrets come from a private Key Vault. Describe the complete network topology including Private Endpoints, DNS zones, and VNet peering.
+2. **Scenario:** Your microservices team wants to implement mTLS between services without changing application code. You decide to enable the Istio service mesh add-on on AKS. How do you enable it, configure PeerAuthentication for STRICT mTLS, and handle traffic between services?
+3. **Scenario:** You have 10 microservices deployed across 3 AKS clusters in different regions. You need a unified view of fleet health and the ability to deploy workloads across clusters. How do you use Azure Fleet Manager and fleet-level Kubernetes API?
+4. **Scenario:** Your organization mandates that no privileged containers should run in the production AKS cluster. How do you enforce this using the Azure Policy Add-on for AKS with a built-in OPA/Gatekeeper policy?
+5. **Scenario:** You're running a .NET microservice on AKS that currently uses RabbitMQ/MassTransit for pub/sub. You want to migrate to Azure Service Bus using the Dapr pub/sub building block without changing application code significantly. How do you configure the Dapr add-on, Service Bus component, and annotate your pods?
+
+---
+
+---
+
+# 📅 Consolidated 12-Week Study Plan
+
+| Week | Topic | Level | Focus |
+|------|-------|-------|-------|
+| 1 | Blob Storage | Fundamentals | Blob types, tiers, SAS, replication |
+| 2 | App Service + ACR | Fundamentals | Hosting, deploy methods, registry basics |
+| 3 | Azure Functions | Fundamentals + Intermediate | Triggers, bindings, Durable Functions |
+| 4 | Azure IAM | Fundamentals + Intermediate | RBAC, Managed Identity, Key Vault integration |
+| 5 | Blob Storage | Intermediate + Advanced | Lifecycle, immutability, events, concurrency |
+| 6 | App Service | Intermediate + Advanced | Slots, autoscale, VNet, multi-region, ASE |
+| 7 | ACR | Intermediate + Advanced | Private endpoints, supply chain, Workload Identity |
+| 8 | Azure Functions | Advanced | VNet, KEDA, Durable patterns, perf tuning |
+| 9 | Azure IAM | Advanced | Workload Identity Federation, PIM, Zero Trust |
+| 10 | AKS Built-in Services | Fundamentals + Intermediate | CSI, KEDA, AGIC, Azure Monitor |
+| 11 | AKS Built-in Services | Advanced | Private cluster, Istio, Fleet, Dapr, Policies |
+| 12 | Scenario Mastery | All Modules | Cross-service integration scenarios |
+
+---
+
+# 🎯 Cross-Service Integration Scenarios (Mastery Level)
+
+These tie together multiple Azure services — perfect for senior-level interviews and real-world architecture:
+
+1. **Full Microservice Pipeline:** Angular SPA on App Service → .NET API on AKS → Azure Service Bus (MassTransit + Dapr) → Azure Functions consumer → Blob Storage output → Event Grid notification → downstream Function
+2. **Zero-Trust Deployment Pipeline:** GitHub Actions (OIDC Workload Identity) → Builds & pushes to ACR (signed image) → Deploys to private AKS cluster (Workload Identity pods) → Pods read secrets from Key Vault via CSI Driver → APIs behind Application Gateway WAF
+3. **Multi-Region Resilience:** Azure Front Door → App Service (primary region) + App Service (secondary region) → AKS with Fleet Manager → Geo-replicated ACR → Geo-redundant Blob Storage (GRS)
+4. **Event-Driven Autoscaling:** Blob upload → Event Grid → Service Bus queue → KEDA scales .NET consumer pods in AKS → Consumer processes and writes results to SQL via Managed Identity
+
+---
+
+> 💡 **Pro Tip for You (8 YOE):** Since you already have strong .NET, microservices, RabbitMQ/MassTransit, and Kubernetes experience, focus heavily on **Phases 2 & 3** and the **cross-service scenarios**. The fundamentals will be quick review — the real value for you is in the architectural decision-making and scenario-based questions that test *why* over *what*.
