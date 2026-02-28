@@ -1,0 +1,606 @@
+Here are **Hints & Techniques** for all 50 Real-World Coding Scenarios! 🎯
+
+---
+
+## 🔹 Scenario 1 — E-Commerce & Orders
+
+---
+
+**Q1. Tiered Discount Calculation**
+> 💡 **Hint:** Use a series of conditional checks or a sorted discount tier list.
+> 🔧 **Technique:**
+> - Define discount tiers as a `List<(decimal minAmount, decimal discountPercent)>` sorted descending
+> - Use `FirstOrDefault()` to find the applicable tier
+> - Avoid nested `if-else` — prefer a **lookup table approach** for extensibility
+> - Pattern: **Strategy Pattern** for different discount rules
+
+---
+
+**Q2. Detect Duplicate Orders**
+> 💡 **Hint:** Group by `CustomerId + ProductId`, then check time difference between consecutive orders.
+> 🔧 **Technique:**
+> - Use `GroupBy(o => new { o.CustomerId, o.ProductId })`
+> - Within each group, use `OrderBy(o => o.CreatedAt)` then compare adjacent records
+> - Use `TimeSpan` subtraction to check if difference is `< 10 minutes`
+> - Data Structure: **Dictionary** for O(1) lookup
+
+---
+
+**Q3. CSV Parsing with Validation**
+> 💡 **Hint:** Read line by line, split by comma, validate each field, collect errors per record.
+> 🔧 **Technique:**
+> - Use `StreamReader` for memory-efficient reading
+> - Create a `ValidationResult` class with `IsValid`, `Errors`, `Record`
+> - Use **FluentValidation** or manual validation rules
+> - Return two lists: `List<Order> validOrders` and `List<FailedRecord> failures`
+> - Pattern: **Result Pattern** / **Notification Pattern**
+
+---
+
+**Q4. Flash Sale with Concurrency**
+> 💡 **Hint:** Use an atomic counter with thread-safe decrement — reject when counter hits zero.
+> 🔧 **Technique:**
+> - Use `Interlocked.Decrement()` for atomic operations
+> - Or use `SemaphoreSlim(100, 100)` to allow exactly 100 concurrent entries
+> - In distributed systems, use **Redis `DECR`** command for atomic counter
+> - Avoid `lock` on the entire order processing — only lock the counter check
+> - Pattern: **Optimistic Concurrency / Token Bucket**
+
+---
+
+**Q5. Paginated Invoice Report**
+> 💡 **Hint:** Filter first, then apply skip/take for pagination. Return total count separately.
+> 🔧 **Technique:**
+> - Use `IQueryable<T>` to build deferred query, apply filters, then paginate
+> - Return a `PagedResult<T>` wrapper: `{ Data, TotalCount, PageNumber, PageSize }`
+> - Use `CountAsync()` before pagination for total records
+> - Always filter before paginating — never paginate then filter
+> - Pattern: **Repository Pattern + Specification Pattern**
+
+---
+
+**Q6. Retry with Exponential Backoff**
+> 💡 **Hint:** Loop with retry count, calculate delay as `2^attempt` seconds, use `Task.Delay`.
+> 🔧 **Technique:**
+> - Use `for` loop with `maxRetries = 3`
+> - Calculate delay: `TimeSpan.FromSeconds(Math.Pow(2, attempt))`
+> - Catch specific exceptions only (e.g., `HttpRequestException`, `TimeoutException`)
+> - Use **Polly** library for production-ready retry policies
+> - Pattern: **Retry Pattern / Polly ResiliencePipeline**
+
+---
+
+**Q7. Top 3 Revenue Months from 1 Million Records**
+> 💡 **Hint:** Group by year-month, sum revenue, sort descending, take top 3.
+> 🔧 **Technique:**
+> - Use `GroupBy(o => new { o.CreatedAt.Year, o.CreatedAt.Month })`
+> - Use `Sum(o => o.TotalAmount)` for aggregation
+> - Use `OrderByDescending().Take(3)` for top 3
+> - For large datasets, process in chunks using `IAsyncEnumerable<T>` or SQL aggregation
+> - Avoid loading all records in memory — push aggregation to database
+
+---
+
+## 🔹 Scenario 2 — User & Authentication
+
+---
+
+**Q8. Password Validation**
+> 💡 **Hint:** Check each rule independently and collect all failure messages, don't stop at first failure.
+> 🔧 **Technique:**
+> - Use `Regex` for pattern matching: `[A-Z]`, `[a-z]`, `[0-9]`, `[!@#$%]`
+> - Return `List<string> errors` instead of `bool`
+> - Use a **rules list** with `Func<string, bool>` and error message pairs
+> - Pattern: **Specification Pattern / Chain of Responsibility**
+
+---
+
+**Q9. Failed Login Lockout — Thread-Safe**
+> 💡 **Hint:** Store attempts with timestamps in a `ConcurrentDictionary`, check count within 15 min window.
+> 🔧 **Technique:**
+> - Use `ConcurrentDictionary<string, List<DateTime>>` keyed by username
+> - On each attempt, remove entries older than 15 minutes, then count
+> - Use `lock` or `ConcurrentDictionary.AddOrUpdate()` for thread safety
+> - In distributed systems, use **Redis with sliding window counter**
+> - Pattern: **Sliding Window Algorithm**
+
+---
+
+**Q10. Secure Password Reset Token**
+> 💡 **Hint:** Generate a random token, store hash + expiry in DB, validate on use and mark as used.
+> 🔧 **Technique:**
+> - Use `RandomNumberGenerator.GetBytes(32)` for cryptographically secure token
+> - Convert to Base64Url string
+> - Store `SHA256` hash of token in DB (never plain token)
+> - Add `ExpiresAt` (now + 30 min) and `IsUsed` flag
+> - On validation: hash incoming token, compare with stored hash, check expiry and `IsUsed`
+
+---
+
+**Q11. Role-Based Access Control (RBAC)**
+> 💡 **Hint:** Build a permission lookup: `UserId → Roles → Permissions`. Cache it for performance.
+> 🔧 **Technique:**
+> - Load user roles and flatten permissions into a `HashSet<string>`
+> - Use `HashSet.Contains(permissionName)` for O(1) lookup
+> - Cache per user with `IMemoryCache` — invalidate on role change
+> - Pattern: **Policy-Based Authorization in ASP.NET Core**
+
+---
+
+**Q12. Suspicious Login Detection**
+> 💡 **Hint:** Compare current login metadata (country, device) with the last login record.
+> 🔧 **Technique:**
+> - Store last login: `UserId, Country, DeviceId, LoginTime` in DB or cache
+> - On new login: compare country and device, check time difference
+> - Use IP geolocation API to resolve country from IP
+> - If mismatch within 1 hour → flag as suspicious, trigger MFA challenge
+> - Pattern: **Event Sourcing for login history**
+
+---
+
+**Q13. Session Timeout Background Service**
+> 💡 **Hint:** Use `BackgroundService` with a timer that periodically scans active sessions.
+> 🔧 **Technique:**
+> - Override `ExecuteAsync()` in `BackgroundService`
+> - Use `PeriodicTimer` (C# 6+) to run every 1 minute
+> - Query sessions where `LastActivityAt < DateTime.UtcNow.AddMinutes(-20)`
+> - Update status to `Expired`
+> - Use `CancellationToken` for graceful shutdown
+> - Pattern: **BackgroundService + PeriodicTimer**
+
+---
+
+## 🔹 Scenario 3 — Banking & Finance
+
+---
+
+**Q14. Atomic Fund Transfer**
+> 💡 **Hint:** Wrap debit and credit in a single database transaction. On failure, rollback everything.
+> 🔧 **Technique:**
+> - Use `IDbTransaction` or EF Core `BeginTransactionAsync()`
+> - Debit source account → Credit destination account → Commit
+> - On any exception: `RollbackAsync()`
+> - Use `SELECT FOR UPDATE` (pessimistic lock) on account rows
+> - Pattern: **Unit of Work + Database Transaction**
+
+---
+
+**Q15. Bank Statement Generation**
+> 💡 **Hint:** Sort transactions by date, maintain a running balance, build statement entries.
+> 🔧 **Technique:**
+> - Start with `openingBalance`
+> - For each transaction in `OrderBy(t => t.TransactionDate)`:
+>   - Calculate `runningBalance += credit - debit`
+>   - Build `StatementEntry { Date, Description, Debit, Credit, Balance }`
+> - Return `{ OpeningBalance, Entries, ClosingBalance }`
+
+---
+
+**Q16. Fraud Detection — High-Value Transactions**
+> 💡 **Hint:** Group by `AccountId + Date`, count transactions above threshold, flag if count > 5.
+> 🔧 **Technique:**
+> - Use `GroupBy(t => new { t.AccountId, t.TransactionDate.Date })`
+> - Filter where `Amount > 50000`
+> - Flag groups where `Count() > 5`
+> - For real-time detection, use a **sliding window with Redis sorted sets**
+> - Pattern: **Rules Engine / Sliding Window**
+
+---
+
+**Q17. Compound Interest with Breakdown**
+> 💡 **Hint:** Calculate year by year using `A = P(1 + r/n)^(nt)`. Store each year's result.
+> 🔧 **Technique:**
+> - Loop from year 1 to n
+> - Each iteration: `balance = principal * Math.Pow(1 + rate / frequency, frequency * year)`
+> - Yield return each year's breakdown using `IEnumerable<YearlyBreakdown>`
+> - Use `decimal` not `double` for financial precision
+
+---
+
+**Q18. Daily Settlement Service with Concurrency**
+> 💡 **Hint:** Process each account independently in parallel, use optimistic concurrency for balance updates.
+> 🔧 **Technique:**
+> - Use `Parallel.ForEachAsync()` with `MaxDegreeOfParallelism`
+> - Use `RowVersion` / `ConcurrencyToken` in EF Core for optimistic locking
+> - Log discrepancies to a separate `SettlementDiscrepancies` table
+> - Wrap in database transaction per account
+> - Pattern: **Saga Pattern for multi-step settlement**
+
+---
+
+**Q19. Batch Payment File Processing**
+> 💡 **Hint:** Read file line by line, validate each record, process valid ones, collect failures with reasons.
+> 🔧 **Technique:**
+> - Use `StreamReader` for large file reading
+> - Validate: account number format, amount > 0, valid transaction type
+> - Use `SqlBulkCopy` or batch `INSERT` for valid records
+> - Track: `successCount`, `failCount`, `totalAmount`
+> - Return summary `BatchProcessingResult` object
+
+---
+
+**Q20. Daily Transaction Limit Enforcement**
+> 💡 **Hint:** Sum today's transactions per user, compare with limit before allowing new transaction.
+> 🔧 **Technique:**
+> - Query: `SUM(amount) WHERE userId = X AND date = today`
+> - Use `IMemoryCache` to cache daily total, invalidate at midnight
+> - Use `Interlocked.Add()` for in-memory thread-safe accumulation
+> - On breach: return `PaymentLimitExceededException` and trigger notification
+> - Pattern: **Decorator Pattern on transaction service**
+
+---
+
+## 🔹 Scenario 4 — Microservices & Messaging
+
+---
+
+**Q21. Idempotent MassTransit Consumer**
+> 💡 **Hint:** Store processed message IDs in DB. Before processing, check if already handled.
+> 🔧 **Technique:**
+> - Use `context.MessageId` as the idempotency key
+> - Check `ProcessedMessages` table before processing
+> - If found → skip silently; if not → process and save `MessageId`
+> - Wrap check + process + save in a **single database transaction**
+> - Pattern: **Idempotent Consumer Pattern**
+
+---
+
+**Q22. Outbox Pattern**
+> 💡 **Hint:** Save domain event to `OutboxMessages` table in the same DB transaction as the business data.
+> 🔧 **Technique:**
+> - In same EF Core transaction: save `Order` + insert `OutboxMessage { EventType, Payload, CreatedAt, ProcessedAt }`
+> - Background service polls every 5 seconds for unprocessed messages
+> - Publish to MassTransit/RabbitMQ, then mark as processed
+> - Pattern: **Transactional Outbox Pattern**
+
+---
+
+**Q23. Parallel External API Calls with Partial Failure Handling**
+> 💡 **Hint:** Use `Task.WhenAll()` with individual try-catch per task. Combine results, use nulls for failures.
+> 🔧 **Technique:**
+> - Wrap each API call in `Task<ApiResult>` with its own `try-catch`
+> - Return `ApiResult { Data, IsSuccess, Error }` for each
+> - Use `await Task.WhenAll(task1, task2, task3)`
+> - Combine results into a unified response, flagging partial failures
+> - Pattern: **Bulkhead Pattern**
+
+---
+
+**Q24. Circuit Breaker — Manual Implementation**
+> 💡 **Hint:** Track failure count and last failure time. Have three states: `Closed`, `Open`, `HalfOpen`.
+> 🔧 **Technique:**
+> - `Closed` → normal operation
+> - After 3 failures → move to `Open`, record `openedAt` time
+> - After 30 seconds → move to `HalfOpen`, allow one trial request
+> - If trial succeeds → `Closed`; if fails → back to `Open`
+> - Use `Interlocked` for thread-safe state transitions
+> - Pattern: **Circuit Breaker Pattern (Polly in production)**
+
+---
+
+**Q25. MassTransit Order Saga**
+> 💡 **Hint:** Define states and events in `MassTransitStateMachine<T>`. Use correlation by `OrderId`.
+> 🔧 **Technique:**
+> - States: `Placed`, `PaymentProcessed`, `Shipped`, `Delivered`, `Cancelled`
+> - Correlate all events by `OrderId`
+> - Use `Schedule()` for payment timeout
+> - On timeout → publish `PaymentFailed`, trigger compensation (cancel order)
+> - Pattern: **Saga Orchestration Pattern**
+
+---
+
+**Q26. Retry with Dead-Letter Queue**
+> 💡 **Hint:** Configure MassTransit retry policy, set up dead-letter queue in RabbitMQ exchange.
+> 🔧 **Technique:**
+> - Use `.UseMessageRetry(r => r.Intervals(1000, 2000, 4000))` in MassTransit
+> - After max retries, MassTransit auto-moves to `_error` queue
+> - Create a separate consumer for the error queue for manual review
+> - Log `MessageId`, `ExceptionType`, `ErrorMessage`, `RetryCount`
+> - Pattern: **Dead Letter Queue Pattern**
+
+---
+
+**Q27. Structured Health Check Endpoint**
+> 💡 **Hint:** Implement `IHealthCheck` for each dependency. Register and expose via `/health` endpoint.
+> 🔧 **Technique:**
+> - Implement `IHealthCheck` for DB, RabbitMQ, and external API
+> - Register: `services.AddHealthChecks().AddCheck<DbHealthCheck>("database")`
+> - Use `HealthCheckResult.Healthy()` / `Degraded()` / `Unhealthy()`
+> - Expose with `app.MapHealthChecks("/health")`
+> - Return JSON response with individual status per dependency
+
+---
+
+## 🔹 Scenario 5 — Data Processing & Performance
+
+---
+
+**Q28. Parallel Batch Processing of 10M Records**
+> 💡 **Hint:** Chunk the list into batches of 1000, use `SemaphoreSlim` to limit concurrency to 5.
+> 🔧 **Technique:**
+> - Use `Chunk(1000)` (C# 6+) to split into batches
+> - Use `SemaphoreSlim(5)` to limit concurrent batches
+> - Use `Interlocked.Add()` for thread-safe progress tracking
+> - Report progress using `IProgress<T>`
+> - Pattern: **Bulkhead + Producer-Consumer**
+
+---
+
+**Q29. Data Deduplication Service**
+> 💡 **Hint:** Use a `HashSet<string>` with a composite key of email + phone for O(1) duplicate detection.
+> 🔧 **Technique:**
+> - Composite key: `$"{email.ToLower()}|{phone}"`
+> - Use `HashSet<string>.Add()` — returns `false` if duplicate
+> - For distributed systems, use **Redis `SADD`** for cross-instance deduplication
+> - Consider **Bloom Filter** for memory-efficient probabilistic deduplication at scale
+
+---
+
+**Q30. Large CSV Streaming with IAsyncEnumerable**
+> 💡 **Hint:** Use `StreamReader` inside an `async` method with `yield return`.
+> 🔧 **Technique:**
+> - Open file with `FileStream` + `StreamReader`
+> - Use `await reader.ReadLineAsync()` in a `while` loop
+> - `yield return` parsed record
+> - Consumer uses `await foreach` — never loads entire file
+> - Handle `CancellationToken` for early termination
+
+---
+
+**Q31. Cache Stampede Prevention**
+> 💡 **Hint:** Use `SemaphoreSlim(1,1)` to ensure only one request populates the cache at a time.
+> 🔧 **Technique:**
+> - Check cache → if miss, acquire semaphore
+> - Inside semaphore: check cache again (double-check locking)
+> - If still miss → fetch from DB, set cache, release semaphore
+> - Others wait on semaphore, then read from cache
+> - Pattern: **Double-Checked Locking / Cache-Aside Pattern**
+
+---
+
+**Q32. Bulk Insert with SqlBulkCopy**
+> 💡 **Hint:** Map DataTable columns to DB columns, use `WriteToServerAsync()` for efficient bulk insert.
+> 🔧 **Technique:**
+> - Create `DataTable` with matching schema
+> - Map columns: `bulkCopy.ColumnMappings.Add("Name", "Name")`
+> - Set `BatchSize = 5000` and `BulkCopyTimeout`
+> - Wrap in `SqlTransaction` for rollback support
+> - Avoid EF Core for bulk operations — use `EFCore.BulkExtensions` in production
+
+---
+
+**Q33. In-Memory Sliding Window Rate Limiter**
+> 💡 **Hint:** Store request timestamps per user in a queue, remove old entries, check count.
+> 🔧 **Technique:**
+> - Use `ConcurrentDictionary<string, Queue<DateTime>>` keyed by userId
+> - On each request: dequeue timestamps older than 1 minute, then enqueue `DateTime.UtcNow`
+> - If `queue.Count > 100` → reject with `429`
+> - Use `lock` per user for thread safety
+> - Pattern: **Sliding Window Log Algorithm**
+
+---
+
+**Q34. File Monitoring Background Service**
+> 💡 **Hint:** Use `FileSystemWatcher` to detect new files, process in background, move on success.
+> 🔧 **Technique:**
+> - Use `FileSystemWatcher` with `Created` event
+> - Use `Channel<string>` as a queue between watcher and processor
+> - Process file → on success: `File.Move()` to archive folder
+> - On failure: log error, move to failed folder
+> - Pattern: **Producer-Consumer with Channel<T>**
+
+---
+
+## 🔹 Scenario 6 — API Design & Validation
+
+---
+
+**Q35. Custom Age Validation Attribute**
+> 💡 **Hint:** Inherit from `ValidationAttribute`, override `IsValid()`, calculate age from DOB.
+> 🔧 **Technique:**
+> - Subtract DOB from `DateTime.Today` to get age in years
+> - Account for birthday not yet occurred this year
+> - Return `ValidationResult` with error message if age < 18
+> - Apply as `[MinimumAge(18)]` on DTO property
+
+---
+
+**Q36. Global Exception Handler Middleware**
+> 💡 **Hint:** Use `IMiddleware` or `UseExceptionHandler`, catch all exceptions, return standard error response.
+> 🔧 **Technique:**
+> - Implement `IMiddleware.InvokeAsync()` with try-catch
+> - Generate `CorrelationId` using `Guid.NewGuid()` or from request header
+> - Map exceptions to HTTP status codes: `NotFoundException → 404`, `ValidationException → 400`
+> - Return `ProblemDetails` JSON response
+> - Log with `ILogger` including correlation ID
+
+---
+
+**Q37. IP-Based Request Throttling Middleware**
+> 💡 **Hint:** Track request counts per IP using `MemoryCache`, return 429 when limit exceeded.
+> 🔧 **Technique:**
+> - Extract IP from `context.Connection.RemoteIpAddress`
+> - Use `IMemoryCache` with sliding expiry of 1 minute per IP
+> - Increment counter on each request, check against limit of 50
+> - Set `Retry-After` header in 429 response
+> - Pattern: **Fixed Window Rate Limiting**
+
+---
+
+**Q38. Dynamic JSON Payload Validation**
+> 💡 **Hint:** Deserialize to `JsonDocument` or `Dictionary<string, JsonElement>`, validate required keys.
+> 🔧 **Technique:**
+> - Use `JsonDocument.Parse()` to inspect payload
+> - Check required fields with `root.TryGetProperty()`
+> - Map to strongly typed object using `JsonSerializer.Deserialize<T>()`
+> - Return detailed validation errors per missing/invalid field
+> - Use `FluentValidation` for rule-based validation
+
+---
+
+**Q39. Idempotency Key Middleware**
+> 💡 **Hint:** Extract key from header, check cache, return cached response if found, else process and cache.
+> 🔧 **Technique:**
+> - Read `Idempotency-Key` header from request
+> - Check `IMemoryCache` or `IDistributedCache` for existing response
+> - If found → return cached response directly (skip controller)
+> - If not → process request, cache response with 5-minute expiry
+> - Use `IDistributedCache` for multi-instance deployments
+
+---
+
+**Q40. Custom Model Binder for Comma-Separated IDs**
+> 💡 **Hint:** Implement `IModelBinder`, read query string value, split by comma, parse to `List<int>`.
+> 🔧 **Technique:**
+> - Implement `IModelBinder.BindModelAsync()`
+> - Get raw value: `bindingContext.ValueProvider.GetValue()`
+> - Split by `','`, parse each to `int`, collect in list
+> - Handle parse failures with `bindingContext.ModelState.AddModelError()`
+> - Register with `[ModelBinder(typeof(CommaSeparatedIntBinder))]` on parameter
+
+---
+
+## 🔹 Scenario 7 — Notifications & Communication
+
+---
+
+**Q41. Multi-Channel Notification Service**
+> 💡 **Hint:** Define `INotificationChannel` interface, implement per channel, use factory to resolve by type.
+> 🔧 **Technique:**
+> - Interface: `INotificationChannel { string ChannelType; Task SendAsync(Notification n); }`
+> - Implementations: `EmailChannel`, `SmsChannel`, `PushChannel`
+> - Factory resolves correct channel by `ChannelType`
+> - Register all channels in DI: `services.AddKeyedScoped<INotificationChannel, EmailChannel>("email")`
+> - Pattern: **Strategy + Factory Pattern**
+
+---
+
+**Q42. Email Retry Mechanism with Failure Queue**
+> 💡 **Hint:** Wrap send in retry loop with delays, on exhaustion publish to `FailedNotifications` queue.
+> 🔧 **Technique:**
+> - Use Polly: `Policy.Handle<SmtpException>().WaitAndRetryAsync(3, attempt => TimeSpan.FromSeconds(attempt * 2))`
+> - On `PolicyResult.Outcome == OutcomeType.Failure` → publish to failure queue
+> - Log: `NotificationId`, `RecipientEmail`, `AttemptCount`, `LastError`
+> - Pattern: **Retry + Dead Letter Queue**
+
+---
+
+**Q43. Bulk Email to 10,000 Users**
+> 💡 **Hint:** Chunk users into batches of 500, process batches sequentially or with limited parallelism, add delay between batches.
+> 🔧 **Technique:**
+> - Use `Chunk(500)` to split user list
+> - Use `Task.WhenAll()` per batch for parallel sends within batch
+> - Add `await Task.Delay(configuredDelay)` between batches to avoid SMTP throttling
+> - Track sent count, failed count using `Interlocked.Increment()`
+> - Pattern: **Batch Processing + Rate Limiting**
+
+---
+
+**Q44. Real-Time Order Status with SignalR**
+> 💡 **Hint:** Use `IHubContext<T>` to push from server. Client subscribes to order-specific group.
+> 🔧 **Technique:**
+> - Client joins group: `hubConnection.InvokeAsync("SubscribeToOrder", orderId)`
+> - Server: `await _hubContext.Clients.Group(orderId).SendAsync("OrderStatusUpdated", status)`
+> - Add user to group: `await Groups.AddToGroupAsync(connectionId, orderId)`
+> - Trigger push from MassTransit consumer on `OrderStatusChanged` event
+> - Pattern: **Observer Pattern via SignalR**
+
+---
+
+## 🔹 Scenario 8 — Reporting & Analytics
+
+---
+
+**Q45. Sales Pivot Report**
+> 💡 **Hint:** Group by month and category, aggregate sales, reshape into pivot structure.
+> 🔧 **Technique:**
+> - Use `GroupBy(s => new { s.Month, s.Category })`
+> - Aggregate with `Sum(s => s.Amount)`
+> - Transform into pivot: `Dictionary<string, Dictionary<int, decimal>>` → `Category → Month → Amount`
+> - Filter current year with `Where(s => s.Date.Year == DateTime.Today.Year)`
+
+---
+
+**Q46. Year-over-Year (YoY) Growth**
+> 💡 **Hint:** Group by year and category, join current year with previous year, calculate % change.
+> 🔧 **Technique:**
+> - Group into `currentYear` and `previousYear` dictionaries by category
+> - Join: `(currentSales - previousSales) / previousSales * 100`
+> - Handle division by zero when `previousSales == 0`
+> - Return `List<YoYGrowthResult> { Category, CurrentSales, PreviousSales, GrowthPercent }`
+
+---
+
+**Q47. Dynamic Date Grouping (Daily/Weekly/Monthly)**
+> 💡 **Hint:** Use a grouping key function based on the grouping type parameter.
+> 🔧 **Technique:**
+> - Define `Func<DateTime, string> groupKey` based on enum:
+>   - `Daily` → `date.ToString("yyyy-MM-dd")`
+>   - `Weekly` → `ISOWeek.GetWeekOfYear(date)`
+>   - `Monthly` → `date.ToString("yyyy-MM")`
+> - Apply `GroupBy(s => groupKey(s.Date))`
+> - Pattern: **Strategy Pattern for grouping logic**
+
+---
+
+**Q48. Leaderboard with Rank and % Difference**
+> 💡 **Hint:** Sort descending, assign rank by position, calculate % diff from first place.
+> 🔧 **Technique:**
+> - `OrderByDescending(u => u.Score).Take(10)`
+> - Use `Select((user, index) => new { Rank = index + 1, user.Score })`
+> - Calculate: `percentDiff = (topScore - userScore) / topScore * 100`
+> - Handle tie-breaking: same score = same rank (dense ranking)
+
+---
+
+**Q49. Sales Anomaly Detection (2 Std Dev)**
+> 💡 **Hint:** Calculate 30-day rolling average and standard deviation, flag outliers.
+> 🔧 **Technique:**
+> - For each day: take previous 30 days of data
+> - Calculate mean: `sum / count`
+> - Calculate std dev: `Math.Sqrt(variance)` where `variance = Σ(x - mean)² / n`
+> - Flag if `|currentSales - mean| > 2 * stdDev`
+> - Use sliding window to avoid recalculating from scratch each day
+
+---
+
+**Q50. Scheduled Report with Azure Blob + Email**
+> 💡 **Hint:** Use `BackgroundService` with a timer targeting 8 AM daily, generate PDF, upload to blob, send email with link.
+> 🔧 **Technique:**
+> - Calculate delay until next 8 AM: `nextRun - DateTime.UtcNow`
+> - Use `await Task.Delay(delay, cancellationToken)`
+> - Generate PDF with **QuestPDF** or **IronPDF**
+> - Upload with `BlobClient.UploadAsync()` from `Azure.Storage.Blobs`
+> - Generate SAS URL with expiry for secure download link
+> - Send email via **SendGrid** or **SMTP** with SAS URL
+> - Pattern: **BackgroundService + Template Method**
+
+---
+
+## 📊 Technique Quick Reference
+
+| Technique | Used In |
+|---|---|
+| `Sliding Window` | Q9, Q16, Q33, Q49 |
+| `Retry + Polly` | Q6, Q42 |
+| `Outbox Pattern` | Q22 |
+| `Circuit Breaker` | Q24 |
+| `Idempotent Consumer` | Q21, Q39 |
+| `SemaphoreSlim` | Q4, Q28, Q31 |
+| `Saga Pattern` | Q25 |
+| `Strategy Pattern` | Q1, Q41, Q47 |
+| `Cache-Aside` | Q31 |
+| `BackgroundService` | Q13, Q22, Q34, Q50 |
+| `IAsyncEnumerable` | Q30 |
+| `SqlBulkCopy` | Q32 |
+| `Channel<T>` | Q34 |
+| `SignalR` | Q44 |
+| `Dead Letter Queue` | Q26, Q42 |
+
+---
+
+Would you like me to:
+- ✅ Provide **full C# code solution** for any specific question?
+- 🔥 Generate **Azure / Kubernetes** specific scenario questions with hints?
+- 🎯 Create a **mock interview simulation** with scoring?
+- 📝 Deep dive into any **specific pattern or technique**?
