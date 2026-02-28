@@ -1,0 +1,249 @@
+Here's your **comprehensive Angular Interview Preparation Planner** — structured from **Basics → Advanced → Scenario-Based Questions**, designed to help you crack a **25 LPA role** in India. 🚀
+
+---
+
+# 🅰️ Angular Interview Preparation Planner
+### 🎯 Target: 25 LPA | Experience: 8 Years | Timeline: 4–6 Weeks
+
+---
+
+## 📅 WEEK 1 — Angular Core Fundamentals
+
+### ✅ Topics to Cover
+
+| # | Topic | Level |
+|---|-------|-------|
+| 1 | Angular Architecture Overview | Basic |
+| 2 | Modules (`NgModule`, Lazy Loading) | Basic |
+| 3 | Components (Lifecycle Hooks) | Basic |
+| 4 | Templates, Directives (Structural & Attribute) | Basic |
+| 5 | Data Binding (One-way, Two-way, Event) | Basic |
+| 6 | Pipes (Built-in & Custom) | Intermediate |
+| 7 | Services & Dependency Injection | Intermediate |
+
+---
+
+### 🔍 Scenario-Based Questions — Week 1
+
+> **Q1 (Data Binding):** You have a form where a user types a product name and the preview should update in real-time without any delay. How would you implement this and which binding type would you use?
+> - **Expected:** Two-way binding with `ngModel`, or reactive forms with `valueChanges` + `debounceTime`.
+
+> **Q2 (Lifecycle Hooks):** In a dashboard component, you're subscribing to a WebSocket in `ngOnInit`. The component is destroyed, but you notice memory leaks. What went wrong and how do you fix it?
+> - **Expected:** Subscription not unsubscribed in `ngOnDestroy`. Use `takeUntil`, `AsyncPipe`, or `Subject` pattern.
+
+> **Q3 (Services/DI):** You have a `CartService` that needs to maintain state across multiple components. But two different module-level injections created two separate instances. How do you fix this?
+> - **Expected:** Provide the service in `root` using `providedIn: 'root'` or provide it at the AppModule level only.
+
+> **Q4 (Directives):** Your team wants to highlight any input field in red when it is invalid, across the whole application without touching individual component templates. How do you achieve this?
+> - **Expected:** Create a custom Attribute Directive (`@Directive`) that listens to `NgControl` and applies styles dynamically.
+
+> **Q5 (Custom Pipe):** A product list shows prices in USD but needs to display based on the user's region (INR, EUR). How would you implement a reusable currency conversion pipe?
+> - **Expected:** Custom `PipeTransform`, injecting a `CurrencyService`, using `transform(value, currency)` with conversion logic.
+
+---
+
+## 📅 WEEK 2 — Routing, Guards & Lazy Loading
+
+### ✅ Topics to Cover
+
+| # | Topic | Level |
+|---|-------|-------|
+| 1 | Angular Router — Routes, RouterLink, RouterOutlet | Intermediate |
+| 2 | Route Parameters & Query Params | Intermediate |
+| 3 | Child Routes & Named Outlets | Intermediate |
+| 4 | Lazy Loading Modules | Intermediate |
+| 5 | Route Guards (`CanActivate`, `CanDeactivate`, `Resolve`) | Advanced |
+| 6 | Preloading Strategies | Advanced |
+| 7 | Standalone Components Routing (Angular 14+) | Advanced |
+
+---
+
+### 🔍 Scenario-Based Questions — Week 2
+
+> **Q1 (Route Guards):** A user fills out a multi-step form and accidentally clicks the browser back button. How do you warn them before losing data?
+> - **Expected:** Implement `CanDeactivate` guard with a `canDeactivate()` method that checks a dirty flag on the component.
+
+> **Q2 (Resolve Guard):** Your product detail page flickers because data loads after the component renders. How do you preload the data before navigation completes?
+> - **Expected:** Use a `Resolve` guard to fetch data and inject it via `ActivatedRoute.snapshot.data`.
+
+> **Q3 (Lazy Loading):** Your Angular app is growing and the initial bundle size is too large, causing slow load times. How do you split the app to improve performance?
+> - **Expected:** Lazy load feature modules using `loadChildren`, apply `PreloadAllModules` or custom preloading strategies.
+
+> **Q4 (Auth Guard):** You have both `admin` and `user` roles. Admin can access `/dashboard/reports` but regular users cannot. How do you implement role-based routing?
+> - **Expected:** `CanActivate` guard that reads user role from `AuthService`/JWT token and allows/denies access accordingly.
+
+> **Q5 (Named Outlets):** Your app has a sidebar chat panel that should remain active regardless of main route navigation. How would you implement this?
+> - **Expected:** Use Named Router Outlets (`<router-outlet name="chat">`), navigate using `{ outlets: { chat: ['chat'] } }`.
+
+---
+
+## 📅 WEEK 3 — Forms (Template-Driven & Reactive)
+
+### ✅ Topics to Cover
+
+| # | Topic | Level |
+|---|-------|-------|
+| 1 | Template-Driven Forms | Basic |
+| 2 | Reactive Forms (`FormBuilder`, `FormGroup`, `FormControl`) | Intermediate |
+| 3 | FormArray — Dynamic Fields | Intermediate |
+| 4 | Custom Validators (Sync & Async) | Advanced |
+| 5 | Cross-field Validation | Advanced |
+| 6 | Dynamic Form Generation | Advanced |
+| 7 | Form Performance Optimization | Advanced |
+
+---
+
+### 🔍 Scenario-Based Questions — Week 3
+
+> **Q1 (Reactive Forms):** You are building a job application form where users can add multiple work experiences dynamically (add/remove). How do you implement this?
+> - **Expected:** Use `FormArray` with `FormGroup` per experience entry, `push()` to add and `removeAt()` to delete.
+
+> **Q2 (Async Validator):** A registration form needs to check if a username is already taken (API call) while the user is typing. How do you implement this without hammering the server?
+> - **Expected:** Async Validator with `debounceTime`, `switchMap` to call API, return `null` if valid or `{ usernameTaken: true }` if not.
+
+> **Q3 (Cross-field Validation):** In a password change form, "New Password" and "Confirm Password" must match. How do you validate at the group level?
+> - **Expected:** Group-level validator on `FormGroup`, compare controls, set error using `setErrors()` on the group.
+
+> **Q4 (Dynamic Form):** You receive a JSON config from the backend that defines form fields (type, label, validators). How do you render the form dynamically?
+> - **Expected:** Parse JSON config, programmatically build `FormGroup` using `FormBuilder`, use `ngSwitch` in template to render different input types.
+
+> **Q5 (Performance):** A reactive form with 100+ controls is causing UI lag due to excessive change detection. How do you fix this?
+> - **Expected:** Use `OnPush` Change Detection, `updateOn: 'blur'` or `'submit'` in `FormControl`, avoid unnecessary subscriptions.
+
+---
+
+## 📅 WEEK 4 — RxJS & State Management
+
+### ✅ Topics to Cover
+
+| # | Topic | Level |
+|---|-------|-------|
+| 1 | Observables, Subjects, BehaviorSubject | Intermediate |
+| 2 | RxJS Operators: `map`, `filter`, `tap`, `mergeMap`, `switchMap`, `concatMap`, `exhaustMap` | Advanced |
+| 3 | Error Handling: `catchError`, `retry`, `retryWhen` | Advanced |
+| 4 | Combining Streams: `forkJoin`, `combineLatest`, `zip`, `merge` | Advanced |
+| 5 | NgRx — Store, Actions, Reducers, Effects, Selectors | Advanced |
+| 6 | NgRx Entity, ComponentStore | Advanced |
+| 7 | Signal-based State Management (Angular 16+) | Advanced |
+
+---
+
+### 🔍 Scenario-Based Questions — Week 4
+
+> **Q1 (switchMap vs mergeMap):** A search box makes an API call on every keystroke. Old results are returning after new ones. How do you fix this?
+> - **Expected:** Use `switchMap` — it cancels the previous inner observable when a new value arrives, unlike `mergeMap`.
+
+> **Q2 (forkJoin):** A dashboard needs to load user profile, orders, and notifications simultaneously and show the page only when all are loaded. How do you handle this?
+> - **Expected:** `forkJoin([getUserProfile(), getOrders(), getNotifications()])` — emits once when all complete.
+
+> **Q3 (NgRx Effects):** Your cart update action needs to call an API and then update the store on success or show an error on failure. How do you implement this with NgRx?
+> - **Expected:** NgRx `Effect` using `Actions` pipe with `ofType`, `switchMap` to API call, dispatch success/failure actions.
+
+> **Q4 (BehaviorSubject):** Multiple components across the app need to react to a logged-in user's profile changes (name, avatar). How do you share this state without NgRx?
+> - **Expected:** `BehaviorSubject` in a `UserService` with a `currentUser$` observable that components subscribe to.
+
+> **Q5 (Memory Leak):** A component subscribes to a store selector. After navigating away and back multiple times, you notice performance degradation. What's the issue?
+> - **Expected:** Subscriptions not unsubscribed. Use `async pipe`, `takeUntilDestroyed()` (Angular 16+), or `Subject` + `takeUntil` pattern.
+
+---
+
+## 📅 WEEK 5 — Performance, Change Detection & Advanced Concepts
+
+### ✅ Topics to Cover
+
+| # | Topic | Level |
+|---|-------|-------|
+| 1 | Change Detection — Default vs OnPush | Advanced |
+| 2 | Zone.js & `runOutsideAngular` | Advanced |
+| 3 | `TrackBy` in `ngFor` | Intermediate |
+| 4 | Pure vs Impure Pipes | Intermediate |
+| 5 | Lazy Loading Images & Deferrable Views (`@defer`) | Advanced |
+| 6 | Bundle Optimization (Tree Shaking, Code Splitting) | Advanced |
+| 7 | Server-Side Rendering (Angular Universal / SSR in v17) | Advanced |
+
+---
+
+### 🔍 Scenario-Based Questions — Week 5
+
+> **Q1 (OnPush):** A parent component updates a list array by mutating it (`array.push()`), but the child component with `OnPush` doesn't re-render. Why and how do you fix it?
+> - **Expected:** `OnPush` only detects changes via reference change. Use immutable patterns — spread operator or `[...array, newItem]` to create a new reference.
+
+> **Q2 (@defer — Angular 17+):** A heavy analytics chart component is loaded on initial page load but most users never scroll down to it. How do you optimize this?
+> - **Expected:** Use `@defer (on viewport)` — loads the component only when it enters the viewport. Show a `@placeholder` in the meantime.
+
+> **Q3 (TrackBy):** You have an `ngFor` rendering 500 rows from an API. Every time a filter is applied and the list refreshes, the entire DOM is re-created. How do you fix this?
+> - **Expected:** Implement `trackBy` function returning a unique `id` — Angular will reuse existing DOM nodes instead of destroying/recreating them.
+
+> **Q4 (SSR):** Your Angular app's SEO is poor because search crawlers can't index dynamic content. How do you solve this?
+> - **Expected:** Implement Angular SSR (Angular Universal / v17 native SSR), pre-render critical pages, use `TransferState` to avoid double API calls.
+
+> **Q5 (Zone.js):** A real-time stock ticker component updates prices every 100ms via WebSocket. This is causing the entire app to run change detection 10 times/second. How do you optimize this?
+> - **Expected:** Use `NgZone.runOutsideAngular()` to run the WebSocket listener outside Angular's zone. Only trigger `ChangeDetectorRef.detectChanges()` when needed.
+
+---
+
+## 📅 WEEK 6 — Testing, Security & Architecture
+
+### ✅ Topics to Cover
+
+| # | Topic | Level |
+|---|-------|-------|
+| 1 | Unit Testing with Jasmine/Jest | Intermediate |
+| 2 | Testing Components, Services, Pipes | Intermediate |
+| 3 | Mocking HTTP with `HttpClientTestingModule` | Advanced |
+| 4 | Angular Security — XSS, CSRF, Sanitization | Advanced |
+| 5 | JWT Authentication in Angular | Advanced |
+| 6 | Micro Frontend Architecture (Module Federation) | Advanced |
+| 7 | Design Patterns in Angular (Facade, Strategy, Repository) | Advanced |
+
+---
+
+### 🔍 Scenario-Based Questions — Week 6
+
+> **Q1 (HTTP Interceptors):** Every API call must include a JWT Bearer token in the Authorization header. You don't want to manually add it in every service. How do you handle this?
+> - **Expected:** Create an `HttpInterceptor`, add the `Authorization: Bearer <token>` header to every outgoing request using `req.clone({ setHeaders: {...} })`.
+
+> **Q2 (JWT Refresh Token):** An API returns `401 Unauthorized` when the access token expires. How do you silently refresh the token and retry the failed request?
+> - **Expected:** In the interceptor, catch 401 errors, call the refresh token endpoint, update the token, then use `switchMap` to retry the original request.
+
+> **Q3 (Security/XSS):** A user profile allows rich-text HTML input (bio). When rendered, it's executing injected scripts. How do you prevent XSS in Angular?
+> - **Expected:** Angular auto-sanitizes `[innerHTML]`, but use `DomSanitizer.sanitize(SecurityContext.HTML, value)` explicitly for untrusted data. Never bypass sanitization unless absolutely necessary.
+
+> **Q4 (Micro Frontends):** Your organization has 5 teams, each owning a separate Angular feature. How would you architect this to allow independent deployments?
+> - **Expected:** Use **Webpack Module Federation** with Angular's `@angular-architects/module-federation` — each team exposes their module as a remote, the shell app loads them dynamically.
+
+> **Q5 (Testing):** A component fetches user data on `ngOnInit` and displays it. Write a test to verify the data is displayed correctly.
+> - **Expected:** Use `TestBed`, mock the service with `jasmine.createSpyObj`, return an observable via `of()`, trigger `fixture.detectChanges()`, and assert DOM content with `By.css`.
+
+---
+
+## 📊 Study Schedule Summary
+
+| Week | Focus Area | Hours/Day |
+|------|-----------|-----------|
+| Week 1 | Core Fundamentals | 1.5 hrs |
+| Week 2 | Routing & Guards | 1.5 hrs |
+| Week 3 | Forms | 2 hrs |
+| Week 4 | RxJS & NgRx | 2 hrs |
+| Week 5 | Performance & Change Detection | 2 hrs |
+| Week 6 | Testing, Security & Architecture | 2 hrs |
+
+---
+
+## 💡 Pro Tips for 25 LPA Interview
+
+| Tip | Details |
+|-----|---------|
+| 🔥 **Know the WHY** | Don't just say what — explain WHY you'd choose OnPush, switchMap, or NgRx in real projects |
+| 📦 **Mention real project usage** | Map every concept to your 8 years of experience |
+| ⚡ **Angular 17+ features** | Know Signals, `@defer`, standalone components — interviewers love this |
+| 🧠 **System Design mindset** | Be ready to design a large-scale Angular app (micro frontends, SSR, state management) |
+| 🧪 **Testing confidence** | Most senior roles test your TDD approach — don't skip Week 6 |
+
+---
+
+Would you like me to:
+- 📝 **Create GitHub Issues** for each week as a tracker in your repo?
+- 📄 **Generate a .md file** of this planner to push to a repository?
+- 🔄 **Expand any specific week** with more questions?
+- 📌 **Generate similar planners** for .NET, RabbitMQ/MassTransit, or Kubernetes?
