@@ -1,0 +1,176 @@
+Here are **C# Programming Interview Questions** — no answers, just questions to test your thinking! 🎯
+
+---
+
+## 🔹 Level 1 — Core C# Fundamentals
+
+1. What is the difference between `value types` and `reference types` in C#? Give examples.
+2. What is boxing and unboxing? What are the performance implications?
+3. What is the difference between `==` and `.Equals()` in C#?
+4. What is the difference between `string` and `StringBuilder`? When would you use each?
+5. What is the difference between `const` and `readonly`?
+6. What is the difference between `abstract class` and `interface`? When would you choose one over the other?
+7. Can a class implement multiple interfaces and inherit from a class at the same time? Show an example.
+8. What is the difference between `override`, `new`, and `virtual` keywords?
+9. What are `sealed` classes? Why would you use them?
+10. What is the difference between `struct` and `class` in C#?
+
+---
+
+## 🔹 Level 2 — OOP & Design
+
+11. What are the four pillars of OOP? Give a C# code example for each.
+12. Explain `Encapsulation` with a real-world example in C#.
+13. What is method hiding (`new` keyword) vs method overriding (`override`)? Show the difference in code.
+14. What is the difference between shallow copy and deep copy? How do you implement deep copy in C#?
+15. What is `IDisposable`? Implement the Dispose pattern correctly.
+16. What is the difference between `is` and `as` operators?
+17. What is covariance and contravariance in generics?
+18. What are extension methods? Write one that extends `string`.
+19. What is an `indexer` in C#? Write a class that uses one.
+20. What is operator overloading? Implement `+` operator for a `Vector` class.
+
+---
+
+## 🔹 Level 3 — Collections & LINQ
+
+21. What is the difference between `IEnumerable<T>`, `ICollection<T>`, and `IList<T>`?
+22. What is the difference between `List<T>` and `LinkedList<T>`?
+23. What is the difference between `Dictionary<TKey, TValue>` and `ConcurrentDictionary<TKey, TValue>`?
+24. What is deferred execution in LINQ? How does it differ from immediate execution?
+25. What is the difference between `Select()` and `SelectMany()`?
+26. What is the difference between `First()`, `FirstOrDefault()`, `Single()`, and `SingleOrDefault()`?
+27. Write a LINQ query to group a list of employees by department and return the average salary per department.
+28. What is the difference between `Where()` followed by `Select()` vs `Select()` followed by `Where()`? Does order matter?
+29. How would you remove duplicates from a list using LINQ?
+30. Write a LINQ query to find the second highest salary from a list of employees.
+
+---
+
+## 🔹 Level 4 — Async / Multithreading
+
+31. What is the difference between `async/await` and traditional `Thread` or `ThreadPool`?
+32. What is a `deadlock`? How can it occur in async code? How do you avoid it?
+33. What is the difference between `Task.Run()` and `Task.Factory.StartNew()`?
+34. What does `ConfigureAwait(false)` do and when should you use it?
+35. What is the difference between `Task.WhenAll()` and `Task.WhenAny()`?
+36. What is `CancellationToken`? How do you use it to cancel an async operation?
+37. What is `SemaphoreSlim`? How is it different from `Mutex` and `lock`?
+38. What is `volatile` keyword in C#? When would you use it?
+39. What is the difference between `Parallel.For` and `Task.WhenAll`?
+40. What is `IAsyncEnumerable<T>`? How does it differ from `IEnumerable<T>`?
+
+---
+
+## 🔹 Level 5 — Memory Management & Performance
+
+41. How does Garbage Collection work in C#? What are Generation 0, 1, and 2?
+42. What is the `Large Object Heap (LOH)`? What problems can it cause?
+43. What is the difference between `Finalize()` and `Dispose()`?
+44. What is `ArrayPool<T>`? When and why would you use it?
+45. What is `Span<T>` and `Memory<T>`? How do they help with performance?
+46. What is `stackalloc`? When is it useful?
+47. How would you detect and fix a memory leak in a .NET application?
+48. What is `WeakReference<T>`? When would you use it?
+49. What is the impact of closures on memory in C#?
+50. What is object pooling? Implement a simple object pool in C#.
+
+---
+
+## 🔹 Level 6 — Design Patterns
+
+51. Implement a thread-safe Singleton pattern in C#.
+52. Implement the Factory Method pattern with a real-world example.
+53. Implement the Strategy pattern for a payment processing system.
+54. Implement the Observer pattern using C# events and delegates.
+55. Implement the Decorator pattern to add logging to an existing service.
+56. What is the difference between `Repository` pattern and `Unit of Work` pattern?
+57. Implement the Chain of Responsibility pattern for request validation.
+58. What is CQRS? How would you implement it in a .NET application?
+59. What is the Mediator pattern? How does MediatR implement it?
+60. Implement the Circuit Breaker pattern in C#.
+
+---
+
+## 🔹 Level 7 — Dependency Injection & Middleware
+
+61. What is Dependency Injection (DI)? What are the three lifetimes in .NET DI (`Transient`, `Scoped`, `Singleton`)?
+62. What happens if you inject a `Scoped` service into a `Singleton` service?
+63. How do you register and resolve multiple implementations of the same interface in .NET DI?
+64. What is `IOptions<T>`, `IOptionsSnapshot<T>`, and `IOptionsMonitor<T>`? What are the differences?
+65. How do you create custom middleware in ASP.NET Core?
+66. What is the difference between `Use()`, `Run()`, and `Map()` in the middleware pipeline?
+67. How does the `IHostedService` interface work? When would you use `BackgroundService`?
+68. How do you implement a health check in ASP.NET Core?
+69. What is `IHttpClientFactory`? Why is it preferred over creating `HttpClient` directly?
+70. How do you implement request logging middleware in ASP.NET Core?
+
+---
+
+## 🔹 Level 8 — Advanced C# Features
+
+71. What are `records` in C#? How are they different from `class` and `struct`?
+72. What is `pattern matching` in C#? Give examples using `switch` expressions.
+73. What are `nullable reference types`? How do you enable and use them?
+74. What is the difference between `init` and `set` property accessors?
+75. What are `primary constructors` in C# 12?
+76. What is `source generators` in C#? Give a use case.
+77. What is the difference between `implicit` and `explicit` type conversions in C#?
+78. What are `local functions`? How are they different from lambda expressions?
+79. What is `deconstruction` in C#? How does it work with tuples and custom types?
+80. What is the `required` modifier on properties in C# 11?
+
+---
+
+## 🔹 Level 9 — Microservices & Messaging
+
+81. How do you implement idempotency in a message consumer using MassTransit?
+82. What is the Outbox Pattern? How would you implement it in a .NET microservice?
+83. What is the difference between `Publish` and `Send` in MassTransit?
+84. How do you handle poison messages (failed messages) in RabbitMQ with MassTransit?
+85. What is a Saga in MassTransit? How does it manage distributed transactions?
+86. What is the difference between choreography and orchestration in microservices?
+87. How do you implement retry policies in MassTransit?
+88. How do you ensure message ordering in RabbitMQ?
+89. What is the difference between a `Queue` and an `Exchange` in RabbitMQ?
+90. How would you implement a request-response pattern using MassTransit?
+
+---
+
+## 🔹 Level 10 — Problem Solving & Algorithms
+
+91. Reverse a string without using built-in `Reverse()`.
+92. Check if a string is a palindrome.
+93. Find all duplicate elements in an array.
+94. Implement binary search in C#.
+95. Write a method to flatten a nested list of integers.
+96. Implement a method to find the longest common prefix in an array of strings.
+97. Write a recursive method to compute the nth Fibonacci number. Then optimize it with memoization.
+98. Implement a method to detect a cycle in a linked list.
+99. Write a method that returns all permutations of a given string.
+100. Given a list of transactions, write C# code to detect any transaction exceeding a user's daily limit.
+
+---
+
+## 📊 Question Distribution
+
+| Level | Focus Area | Count |
+|---|---|---|
+| 1–2 | Core C# & OOP | 20 |
+| 3 | Collections & LINQ | 10 |
+| 4 | Async & Multithreading | 10 |
+| 5 | Memory & Performance | 10 |
+| 6 | Design Patterns | 10 |
+| 7 | DI & Middleware | 10 |
+| 8 | Advanced C# Features | 10 |
+| 9 | Microservices & Messaging | 10 |
+| 10 | Problem Solving | 10 |
+| **Total** | | **100** |
+
+---
+
+Would you like me to:
+- 🎯 Generate questions specific to **any one level**?
+- 📝 Add questions around **Azure, SQL Server, or Kubernetes**?
+- ⏱️ Create a **timed mock interview set** (e.g., 10 questions / 45 minutes)?
+- ✅ Provide **answers for any specific question**?
