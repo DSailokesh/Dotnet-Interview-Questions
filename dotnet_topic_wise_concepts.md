@@ -37,7 +37,7 @@ Here is the **complete .NET Learning Planner** with **Concepts + Scenario-Based 
 | | |
 |---|---|
 | **What to Learn** | `List<T>`, `Dictionary<K,V>`, `HashSet<T>`, `Queue<T>`, `Stack<T>`, `LinkedList<T>` |
-| **Key Topics** | When to use which collection, time complexity (O(1) vs O(n)), `IEnumerable<T>` vs `ICollection<T>` vs `IList<T>` |
+| **Key Topics** | When to use which collection, time complexity (O(1) vs O(n)), `IEnumerable<T>` vs `ICollection<T>` vs `IList<T>` | `IEnumerable<T>` vs `IEnumerator<T>`
 
 > 🎯 **Scenario:** Your product search feature needs to check if a product ID exists in a list of 100,000 IDs per request. It's slow. How do you change from `List<T>.Contains()` (O(n)) to `HashSet<T>.Contains()` (O(1))?
 
